@@ -162,7 +162,7 @@ export default function CartPage() {
     const abonoInicial = totalWhatsApp * 0.3;
     const restante = totalWhatsApp * 0.7;
 
-    const message = `${headerMsg}\n\n${productosText}\n\n--------------------\nTOTAL: $${totalWhatsApp.toFixed(2)}\n\nAbono inicial (30%): $${abonoInicial.toFixed(2)}\nRestante: $${restante.toFixed(2)}\n--------------------\n\n${footerMsg}`;
+    const message = `${headerMsg}\n\n${productosText}\n\n--------------------\nTOTAL: $${totalWhatsApp.toFixed(2)}`;
     return encodeURIComponent(message);
   };
 
@@ -302,7 +302,7 @@ export default function CartPage() {
                   return (
                     <div
                       key={itemKey}
-                      className="bg-black rounded-2xl border border-amber-300 shadow-sm p-4 flex gap-3 sm:gap-4 items-start"
+                      className="bg-black rounded-2xl border border-red-500 shadow-sm p-4 flex gap-3 sm:gap-4 items-start"
                     >
                       <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden bg-[var(--muted)] border border-[var(--border)] flex items-center justify-center">
                         <img
@@ -338,7 +338,7 @@ export default function CartPage() {
                         {/* Personalización */}
                         {personalizacionFields.length > 0 && (
                           <div className="mt-1.5 rounded-lg border p-2 flex flex-col gap-0.5"
-                            style={{ borderColor: "var(--border)", background: "var(--bgSecondary)" }}>
+                            style={{ borderColor: "red", background: "black" }}>
                             <span className="text-[10px] font-semibold uppercase tracking-wide flex items-center gap-1"
                               style={{ color: "var(--textSecondary)" }}>
                               <span className="material-icons-round text-xs">auto_awesome</span>
@@ -431,7 +431,7 @@ export default function CartPage() {
                       </div>
 
                     </div>
-                    <div className="border-t border-amber-300 mt-3 pt-3 flex justify-between font-bold text-base">
+                    <div className="border-t border-red-500 mt-3 pt-3 flex justify-between font-bold text-base">
                       <span className="text-white">Total</span>
                       <span className="text-white">${total.toFixed(2)}</span>
                     </div>
@@ -440,7 +440,7 @@ export default function CartPage() {
                   <div className="space-y-2.5">
                     <button
                       onClick={handleGenerarOrden}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-amber-300 hover:bg-amber-400 text-white font-extrabold text-sm rounded-xl transition-colors shadow-md"
+                      className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-red-500 hover:bg-red-600 text-white font-extrabold text-sm rounded-xl transition-colors shadow-md"
                       title="Enviar pedido por WhatsApp"
                     >
                       <span className="material-icons-round text-base">chat</span>
@@ -449,7 +449,7 @@ export default function CartPage() {
 
                     <button
                       onClick={handleAbrirTransferencia}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-black border border-white/15 hover:border-amber-200 text-white font-bold text-sm rounded-xl transition-colors"
+                      className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-black border border-white/15 hover:border-red-500 text-white font-bold text-sm rounded-xl transition-colors"
                       title="Pagar el 30% inicial por transferencia bancaria"
                     >
                       <span className="material-icons-round text-base">account_balance</span>
