@@ -146,7 +146,7 @@ return (
     <>
 
       <nav
-        className="sticky top-0 z-40 border-b py-3 px-2 shadow-sm text-white"
+        className="sticky top-0 z-40 border-b py-3 px-2 shadow-sm bg-black text-white"
         style={{ borderColor: BRAND.border }}
       >
         {/* ── Header principal ── */}
@@ -204,8 +204,7 @@ return (
               className="hidden lg:flex items-center leading-none"
             >
               <Image
-                src="/logo_art1.png"
-                alt="Art Design MAKR"
+                src="/logo_joya.png"
                 width={190}
                 height={60}
                 priority
@@ -221,7 +220,7 @@ return (
               className="pointer-events-auto flex flex-col items-center leading-none"
             >
               <Image
-                src="/logo_art1.png"
+                src="/logo_joya.png"
                 alt="Art Design MAKR"
                 width={180}
                 height={62}
@@ -431,7 +430,7 @@ return (
                 className="font-bold text-base"
                 style={{ color: "#ffffff", letterSpacing: "0.08em" }}
               >
-                Art Design <span style={{ color: BRAND.gold }}>Makr</span>
+                MVP Accesories <span style={{ color: "gold" }}>FOR MEN</span>
               </span>
               <button
                 onClick={() => setMobileOpen(false)}

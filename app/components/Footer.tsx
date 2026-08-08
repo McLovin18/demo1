@@ -27,12 +27,12 @@ const IconWhatsApp = () => (
 );
 
 const socialLinks = [
-  { href: "https://www.instagram.com/art.design.makr/", label: "Instagram", Icon: IconInstagram },
+  { href: "https://www.instagram.com/mvp_gye/", label: "Instagram", Icon: IconInstagram },
 ];
 
 // 👉 Información del negocio
-const WHATSAPP_NUMBER = "593978803423"; // solo números, con código de país, sin '+' ni espacios
-const WHATSAPP_DISPLAY = "+593 97 880 3423"; // como se muestra al usuario
+const WHATSAPP_NUMBER = "593979747252"; // solo números, con código de país, sin '+' ni espacios
+const WHATSAPP_DISPLAY = "+593 97 974 7252"; // como se muestra al usuario
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
 
   useEffect(() => {
     getPublicTodayAnalytics().then(setAnalytics).catch(() => setAnalytics(null));
-    
+
     // Cargar seguidores de Instagram solo si está configurado
     fetch("/api/instagram/followers")
       .then(res => res.json())
@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
             {/* Columna 1: Información de la tienda */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
               <span className="text-base font-bold tracking-wide text-white">
-                Art Design MAKR
+                MVP Accesories
               </span>
 
               {instagramEnabled && instagramFollowers !== null && instagramFollowers > 0 && (
@@ -93,8 +93,12 @@ const Footer: React.FC = () => {
               )}
 
               <div className="text-xs text-white/60 mt-1 max-w-[220px]">
-                <p>Cuadros 100% pintados a mano, medida y diseño personalizados</p>
-                <p>Ubicados en Quito</p>
+                <p>Pulseras que representan Fuerza, Estilo y Poder</p>
+                <p>Hechas a mano | Materiales premium</p>
+                <p className="flex items-center gap-1 justify-center md:justify-start mt-0.5">
+                  <IconLocation />
+                  Ubicados en Guayaquil
+                </p>
               </div>
             </div>
 
@@ -113,7 +117,7 @@ const Footer: React.FC = () => {
                     <li key={label}>
                       <a
                         href={href}
-                        className="flex items-center justify-center w-9 h-9 rounded-full border border-white/15 text-white transition-colors hover:bg-red-600  hover:border-red-600"
+                        className="flex items-center justify-center w-9 h-9 rounded-full border border-white/15 text-white transition-colors hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-black"
                         target="_blank"
                         rel="noreferrer"
                         title={label}
@@ -135,11 +139,11 @@ const Footer: React.FC = () => {
             </div>
             {/* Columna 3: Contacto */}
             <div className="flex flex-col items-center md:items-end gap-2.5">
-              <a 
+              <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 text-xl text-white/70 hover:text-red-500 transition-colors"
+                className="flex items-center gap-2 text-xl text-white/70 hover:text-[#D4AF37] transition-colors"
                 onClick={() => trackLinkClick().catch(console.error)}
               >
                 <span>{WHATSAPP_DISPLAY}</span>
@@ -148,14 +152,14 @@ const Footer: React.FC = () => {
 
               <a
                 href="/reviews"
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors"
+                className="px-4 py-2 bg-[#D4AF37] hover:bg-[#c19a2e] text-black font-bold rounded-lg transition-colors"
                 onClick={() => trackLinkClick().catch(console.error)}
               >
                 Reseñas
               </a>
 
             </div>
-            
+
           </div>
         </div>
 
@@ -165,19 +169,19 @@ const Footer: React.FC = () => {
         {/* Copyright row */}
         <div className={styles.ftCopyRow}>
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} Art Design MAKR. Todos los derechos reservados.
+            © {new Date().getFullYear()} MVP Accesories. Todos los derechos reservados.
           </p>
           <div className={styles.ftCopyRight}>
             <div className="flex items-center gap-1.5 text-xs text-white/60">
-              <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
               Hecho en Ecuador
             </div>
-            
+
             <a
               href="https://www.instagram.com/hector.cobena/"
               target="_blank"
               rel="noreferrer"
-              className="text-xs text-white/50 hover:text-red-500 transition-colors"
+              className="text-xs text-white/50 hover:text-[#D4AF37] transition-colors"
               onClick={() => trackLinkClick().catch(console.error)}
             >
               Desarrollado por Héctor Cobeña

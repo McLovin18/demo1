@@ -3,8 +3,6 @@
 import { obtenerProductoPorId, obtenerProductosPorCategoria, obtenerProductosPorSubcategoria, obtenerProductosPorSubsubcategoria } from "../lib/productos-db";
 import { obtenerAtributos } from "../lib/atributos-db";
 import { Loading3DIcon } from "../components/Loading3DIcon";
-import ProductoCard from "../components/ProductoCard";
-import RelatedProductsCarousel from "../components/RelatedProductsCarousel";
 import VariationsManager from "../components/VariationsManager";
 import React, { useState, useEffect } from "react";
 import { ProductReview } from "../lib/reviews-types";
@@ -435,7 +433,7 @@ return (
           {/* Imagen principal */}
           <div className="relative aspect-square rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10">
             {hasDiscount && (
-              <span className="absolute top-3 left-3 z-10 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+              <span className="absolute top-3 left-3 z-10 bg-amber-300 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                 -{discount}%
               </span>
             )}
@@ -453,7 +451,7 @@ return (
             {producto.imagenes.length > 1 && imgIdx > 0 && (
               <button
                 onClick={() => setImgIdx(imgIdx - 1)}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#141313] border border-white/15 shadow flex items-center justify-center hover:scale-105 hover:border-red-600 transition-all"
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#141313] border border-white/15 shadow flex items-center justify-center hover:scale-105 hover:border-amber-300 transition-all"
               >
                 <span className="material-icons-round text-white/70 text-lg">chevron_left</span>
               </button>
@@ -461,7 +459,7 @@ return (
             {producto.imagenes.length > 1 && imgIdx < producto.imagenes.length - 1 && (
               <button
                 onClick={() => setImgIdx(imgIdx + 1)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#141313] border border-white/15 shadow flex items-center justify-center hover:scale-105 hover:border-red-600 transition-all"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#141313] border border-white/15 shadow flex items-center justify-center hover:scale-105 hover:border-amber-300 transition-all"
               >
                 <span className="material-icons-round text-white/70 text-lg">chevron_right</span>
               </button>
@@ -477,7 +475,7 @@ return (
                     onClick={() => setImgIdx(idx)}
                     className={`flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all bg-black/30 backdrop-blur-sm ${
                       imgIdx === idx
-                        ? "border-red-600 scale-105"
+                        ? "border-amber-300 scale-105"
                         : "border-transparent opacity-50 hover:opacity-80"
                     }`}
                   >
@@ -498,7 +496,7 @@ return (
                     onClick={() => handleTabToggle("caracteristicas")}
                     className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-all ${
                       activeTab === "caracteristicas"
-                            ? "bg-red-600 text-white"
+                            ? "bg-amber-300 text-white"
                             : ": bg-black/30 backdrop-blur-sm text-white hover:bg-white/10"
                     }`}
                   >
@@ -512,7 +510,7 @@ return (
                     hasCaracteristicas ? "border-l border-white/10" : ""
                   } ${
                     activeTab === "resenas"
-                            ? "bg-red-600 text-white"
+                            ? "bg-amber-300 text-white"
                             : "bg-black/30 backdrop-blur-sm text-white hover:bg-white/10"
                   }`}
                 >
@@ -539,7 +537,7 @@ return (
                     <ul className="space-y-2">
                       {producto.caracteristicas.map((c, idx) => (
                         <li key={idx} className="flex items-start gap-2.5 text-sm text-white/80">
-                          <span className="w-1 h-1 rounded-full bg-red-600 mt-2 flex-shrink-0" />
+                          <span className="w-1 h-1 rounded-full bg-amber-300 mt-2 flex-shrink-0" />
                           <Markdown>{c}</Markdown>
                         </li>
                       ))}
@@ -602,7 +600,7 @@ return (
                 </span>
 
                 {hasDiscount && (
-                  <span className="text-xs font-semibold text-red-500 bg-red-500/10 px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-semibold text-amber-300 bg-red-500/10 px-2 py-0.5 rounded-full">
                     {discount}% OFF
                   </span>
                 )}
@@ -616,7 +614,7 @@ return (
                   <p>El precio base corresponde a la medida estandar de 150x100 cm. Escribe una medida como 150x100 cm para recalcular.</p>
                 )}
                 {measurePricing?.error && (
-                  <p className="text-red-400">{measurePricing.error}</p>
+                  <p className="text-amber-300">{measurePricing.error}</p>
                 )}
                 {measurePricing?.isValid && (
                   <p className="text-emerald-400">
@@ -673,7 +671,7 @@ return (
                   `,
                 }}
               >
-                <h3 className="text-sm font-bold mb-3 flex items-center gap-2 text-red-500">
+                <h3 className="text-sm font-bold mb-3 flex items-center gap-2 text-amber-200">
                   <span className="material-icons-round text-base">auto_awesome</span>
                   Personalización
                 </h3>
@@ -693,11 +691,11 @@ return (
                             value={personalizacionValues[campo.id] || ""}
                             onChange={(e) => setPersonalizacionValues(prev => ({ ...prev, [campo.id]: e.target.value }))}
                             placeholder="150x100 cm"
-                            className={`w-full rounded-xl border-none px-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-red-600 bg-white text-black placeholder:text-black/45 ${
-                              measurePricing?.error ? "ring-2 ring-red-500" : ""
+                            className={`w-full rounded-xl border-none px-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-amber-300 bg-white text-black placeholder:text-black/45 ${
+                              measurePricing?.error ? "ring-2 ring-amber-300" : ""
                             }`}
                           />
-                          <p className={`mt-1.5 text-xs ${measurePricing?.error ? "text-red-400" : "text-white/55"}`}>
+                          <p className={`mt-1.5 text-xs ${measurePricing?.error ? "text-amber-300" : "text-white/55"}`}>
                             {measurePricing?.error || "Formato requerido: ancho x alto. Ejemplo: 150x100 cm."}
                           </p>
                         </>
@@ -707,7 +705,7 @@ return (
                           value={personalizacionValues[campo.id] || ""}
                           onChange={(e) => setPersonalizacionValues(prev => ({ ...prev, [campo.id]: e.target.value }))}
                           placeholder={`Ingresa ${campo.nombre.toLowerCase()}`}
-                          className="w-full rounded-xl border-none px-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-red-600 bg-white text-black placeholder:text-black/45"
+                          className="w-full rounded-xl border-none px-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-amber-300 bg-white text-black placeholder:text-black/45"
                         />
                       ) : campo.tipo === "numero" ? (
                         <input
@@ -715,14 +713,14 @@ return (
                           value={personalizacionValues[campo.id] || ""}
                           onChange={(e) => setPersonalizacionValues(prev => ({ ...prev, [campo.id]: e.target.value }))}
                           placeholder={`Ingresa ${campo.nombre.toLowerCase()}`}
-                          className="w-full rounded-xl border-none px-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-red-600 bg-white text-black placeholder:text-black/45"
+                          className="w-full rounded-xl border-none px-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-amber-300 bg-white text-black placeholder:text-black/45"
                         />
                       ) : campo.tipo === "fecha" ? (
                         <input
                           type="date"
                           value={personalizacionValues[campo.id] || ""}
                           onChange={(e) => setPersonalizacionValues(prev => ({ ...prev, [campo.id]: e.target.value }))}
-                          className="w-full rounded-xl border-none px-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-red-600 bg-white text-black"
+                          className="w-full rounded-xl border-none px-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-amber-300 bg-white text-black"
                         />
                       ) : null}
                     </div>
@@ -755,7 +753,7 @@ return (
                       type="checkbox"
                       checked={altoRelieve}
                       onChange={(e) => setAltoRelieve(e.target.checked)}
-                      className="w-4 h-4 accent-red-600"
+                      className="w-4 h-4 accent-amber-300"
                     />
                     desea agregar alto relieve al cuadro?
                   </label>
@@ -772,8 +770,8 @@ return (
                   maxCantidad === 0 || (hasVariations && variationAttributeIds.length > 0 && !variationAttributeIds.every(attrId => selectedVariations[attrId]))
                     ? "bg-black text-white/20 border-white/10 cursor-not-allowed opacity-50 shadow-none"
                     : inCart
-                      ? "bg-red-600 text-white border-red-600 hover:bg-red-700 hover:shadow-md"
-                      : "bg-red-600 text-white border-red-600 hover:bg-red-700 hover:shadow-md"
+                      ? "bg-amber-300 text-white border-amber-300 hover:bg-amber-300 hover:shadow-md"
+                      : "bg-amber-300 text-white border-amber-300 hover:bg-amber-500 hover:shadow-md"
                 }`}
               >
                 <span className="material-icons-round text-[18px]">
@@ -787,8 +785,8 @@ return (
                   onClick={handleFav}
                   className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all ${
                     isFav
-                      ? "bg-red-600 text-white shadow"
-                      : "bg-black border border-white/15 text-white hover:border-red-600 hover:text-red-500 hover:shadow-sm"
+                      ? "bg-amber-300 text-white shadow"
+                      : "bg-black border border-white/15 text-white hover:border-amber-300 hover:text-amber-400 hover:shadow-sm"
                   }`}
                   title={isFav ? "Quitar de favoritos" : "Agregar a favoritos"}
                 >
@@ -812,7 +810,7 @@ return (
                 </span>
 
                 {hasDiscount && (
-                  <span className="text-xs font-semibold text-red-500 bg-red-500/10 px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-semibold text-amber-300 bg-red-500/10 px-2 py-0.5 rounded-full">
                     {discount}% OFF
                   </span>
                 )}
@@ -827,7 +825,7 @@ return (
                   <ul className="space-y-2">
                     {descItems.map((item, idx) => (
                       <li key={idx} className="flex gap-2 text-sm text-white/80 leading-relaxed">
-                        <span className="text-red-600 flex-shrink-0 mt-0.5">›</span>
+                        <span className="text-amber-300 flex-shrink-0 mt-0.5">›</span>
                         <span>
                           {item.text}
                           {item.sub.length > 0 && (
@@ -857,7 +855,7 @@ return (
                 <h1 className="text-white">Descripción:</h1>
                 {descItems.map((item, idx) => (
                   <li key={idx} className="flex gap-2 text-sm text-white/80 leading-relaxed">
-                    <span className="text-red-600 flex-shrink-0 mt-0.5">›</span>
+                    <span className="text-amber-300 flex-shrink-0 mt-0.5">›</span>
                     <span>
                       {item.text}
                       {item.sub.length > 0 && (
@@ -889,7 +887,7 @@ return (
                 onClick={() => handleTabToggle("caracteristicas")}
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold transition-all ${
                   activeTab === "caracteristicas"
-                    ? "bg-red-600 text-white"
+                    ? "bg-amber-300 text-white"
                     : "bg-black text-white/70 hover:bg-white/5"
                 }`}
               >
@@ -903,7 +901,7 @@ return (
                 hasCaracteristicas ? "border-l border-white/10" : ""
               } ${
                 activeTab === "resenas"
-                  ? "bg-red-600 text-white"
+                  ? "bg-amber-300 text-white"
                   : "bg-black text-white/70 hover:bg-white/5"
               }`}
             >
@@ -927,7 +925,7 @@ return (
                 <ul className="space-y-2">
                   {producto.caracteristicas.map((c, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 text-sm text-white/80">
-                      <span className="w-1 h-1 rounded-full bg-red-600 mt-2 flex-shrink-0" />
+                      <span className="w-1 h-1 rounded-full bg-amber-300 mt-2 flex-shrink-0" />
                       <Markdown>{c}</Markdown>
                     </li>
                   ))}
@@ -1024,7 +1022,7 @@ function ReviewsSection({
               <span key={i} onClick={() => setReviewRating(i + 1)} role="button"
                 aria-label={`Calificación ${i + 1}`}
                 className={`text-2xl cursor-pointer transition-transform hover:scale-110 select-none ${
-                  i < reviewRating ? "text-yellow-400" : "text-white/10"
+                  i < reviewRating ? "text-amber-300" : "text-white/10"
                 }`}>★</span>
             ))}
           </div>
@@ -1038,12 +1036,12 @@ function ReviewsSection({
         </div>
 
         {reviewError && (
-          <p className="text-xs text-red-500">{reviewError}</p>
+          <p className="text-xs text-amber-300">{reviewError}</p>
         )}
 
         <div className="flex items-center justify-between gap-4">
           <button type="submit" disabled={reviewLoading}
-            className="px-6 py-2.5 rounded-xl bg-red-600 border border-red-600 text-white text-sm font-bold hover:bg-red-700 hover:shadow-sm disabled:opacity-40 transition-all">
+            className="px-6 py-2.5 rounded-xl bg-amber-300 border border-amber-300 text-white text-sm font-bold hover:bg-amber-400 hover:shadow-sm disabled:opacity-40 transition-all">
             {reviewLoading ? "Enviando..." : "Publicar reseña"}
           </button>
         </div>

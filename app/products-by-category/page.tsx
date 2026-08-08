@@ -304,117 +304,6 @@ export default function ProductsByCategoryPage() {
 
       <main className="max-w-350 mx-auto w-full px-3 sm:px-5 py-8 flex-1">
         {/* Cabecera */}
-        {(categoriaId || subcategoriaId || subsubcategoriaId) && (
-          <div className="mb-4">
-            <nav className="flex items-center gap-1 text-xs text-white/40 mb-1 select-none">
-              <span className="hover:underline cursor-pointer" onClick={() => window.location.href = '/products-by-category'}>Categorías</span>
-              {categoriaId && (
-                <>
-                  <span className="mx-1">›</span>
-                  <span className="hover:underline cursor-pointer" onClick={() => window.location.href = `/products-by-category?cat=${encodeURIComponent(categoriaId)}`}>{getCategoryName(categoriaId)}</span>
-                </>
-              )}
-              {subcategoriaId && (
-                <>
-                  <span className="mx-1">›</span>
-                  <span className="hover:underline cursor-pointer" onClick={() => window.location.href = `/products-by-category?cat=${encodeURIComponent(categoriaId)}&subcat=${encodeURIComponent(subcategoriaId)}`}>{getSubcategoryName(subcategoriaId)}</span>
-                </>
-              )}
-              {subsubcategoriaId && (
-                <>
-                  <span className="mx-1">›</span>
-                  <span className="font-semibold text-white/80">{getSubsubcategoryName(subsubcategoriaId)}</span>
-                </>
-              )}
-            </nav>
-            <h1 className="text-xl sm:text-2xl font-bold leading-tight text-white">
-              {subsubcategoriaId
-                ? getSubsubcategoryName(subsubcategoriaId)
-                : subcategoriaId
-                  ? getSubcategoryName(subcategoriaId)
-                  : getCategoryName(categoriaId)}
-            </h1>
-          </div>
-        )}
-
-        {/* ── Categorías — círculos, mismo patrón que en /productos ── */}
-        {categorias.length > 0 && (
-          <div
-            ref={categoriesScrollRef}
-            className="mt-2 mb-8 w-full max-w-full flex items-center justify-start sm:justify-center gap-4 overflow-x-auto overflow-y-hidden pb-2 pl-4 pr-4 -mx-3 sm:mx-0 sm:px-3 sm:pr-2 no-scrollbar"
-            style={{ WebkitOverflowScrolling: "touch" }}
-          >
-            <button
-              type="button"
-              onClick={selectTodas}
-              className="flex flex-col items-center w-24 shrink-0 select-none"
-            >
-              <div
-                className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 shadow-sm flex items-center justify-center ${
-                  !categoriaId
-                    ? "border-red-600 ring-2 ring-white/20"
-                    : "border-white/20"
-                } bg-black`}
-              >
-                <span className="text-xs font-bold tracking-wide text-white/80">
-                  TODOS
-                </span>
-              </div>
-
-              <span
-                className={`mt-2 text-sm ${
-                  !categoriaId ? "text-white" : "text-white/70"
-                } text-center`}
-              >
-                Todos
-              </span>
-            </button>
-
-            {categorias.map((cat) => {
-              const selected = sameCategoryId(categoriaId, cat.id);
-
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => selectCategoria(cat.id)}
-                  className="flex flex-col items-center w-24 shrink-0 select-none"
-                >
-                  <div
-                    className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 shadow-sm overflow-hidden ${
-                      selected
-                        ? "border-red-600 ring-2 ring-white/20"
-                        : "border-white/20"
-                    } bg-black`}
-                  >
-                    {cat.imagen ? (
-                      <img
-                        src={cat.imagen}
-                        alt={cat.nombre}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-2xl font-black text-white/70">
-                          {cat.nombre.slice(0, 1).toUpperCase()}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  <span
-                    className={`mt-2 text-sm ${
-                      selected ? "text-white" : "text-white/70"
-                    } text-center leading-tight`}
-                  >
-                    {cat.nombre}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
         {/* Grid de productos o Loading */}
         {(!isMounted || loading) ? (
           <div className="flex flex-col items-center justify-center py-32 transition-opacity duration-500">
@@ -433,7 +322,7 @@ export default function ProductsByCategoryPage() {
           </div>
         ) : (
           <>
-            <div className={`grid grid-cols-3 gap-2 sm:grid-cols-4 animate-in fade-in duration-700`}>
+            <div className={`grid grid-cols-2 gap-2 sm:grid-cols-4 animate-in fade-in duration-700`}>
               {paginatedProducts.map((p: any) => (
                 <ProductoCard
                   key={p.id}

@@ -189,7 +189,6 @@ const lastHeroIndex = useMemo(() => {
             No hay secciones publicadas para mostrar.
           </div>
         )}
-        {!loading && <HomeCategoriesProductsSection products={allProducts} />}
       </main>
       {!isLogged && <BottomBarPublic />}
     </>

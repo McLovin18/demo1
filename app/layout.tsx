@@ -17,9 +17,9 @@ export const revalidate = 1800;
 // Cambiar cuando tengas el dominio definitivo
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://artdesignmakr.com";
+  "https://mvpaccesories.com";
 
-const SITE_NAME = "Art Design MAKR | Cuadros Pintados a Mano Quito Ecuador";
+const SITE_NAME = "MVP Accesories | Pulseras para Hombre en Guayaquil Ecuador";
 
 const sourceSerif4 = Source_Serif_4({
   subsets: ["latin"],
@@ -30,26 +30,26 @@ const sourceSerif4 = Source_Serif_4({
 
 export const metadata: Metadata = {
   title: {
-    default: "Art Design MAKR | Cuadros Pintados a Mano en Quito",
-    template: "%s | Art Design MAKR",
+    default: "MVP Accesories | Pulseras para Hombre Hechas a Mano en Guayaquil",
+    template: "%s | MVP Accesories",
   },
 
   description:
-    "Cuadros 100% pintados a mano, personalizados en medida y diseño. Más de 15 años de trayectoria y experiencia en arte decorativo. Trabajamos bajo pedido con envío a todo el Ecuador desde Quito.",
+    "Pulseras para hombre hechas a mano con materiales premium. Diseños únicos que representan fuerza, estilo y poder. Envíos a todo el Ecuador desde Guayaquil.",
 
   keywords: [
-    "cuadros pintados a mano",
-    "cuadros personalizados Ecuador",
-    "cuadros a medida Quito",
-    "arte decorativo Ecuador",
-    "pinturas al óleo Ecuador",
-    "cuadros grandes para sala",
-    "decoración con cuadros",
-    "arte para el hogar Quito",
-    "Art Design MAKR",
-    "cuadros abstractos Ecuador",
-    "murales pintados a mano",
-    "regalos de arte personalizados",
+    "pulseras para hombre",
+    "pulseras hechas a mano Ecuador",
+    "accesorios para hombre Guayaquil",
+    "pulseras de moda Ecuador",
+    "accesorios masculinos premium",
+    "pulseras artesanales",
+    "regalos para hombre Ecuador",
+    "MVP Accesories",
+    "pulseras únicas",
+    "moda masculina Guayaquil",
+    "brazaletes para hombre",
+    "accesorios de acero para hombre",
   ],
 
   creator: SITE_NAME,
@@ -72,17 +72,17 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: SITE_NAME,
 
-    title: "Art Design MAKR | Cuadros Pintados a Mano",
+    title: "MVP Accesories | Pulseras para Hombre",
 
     description:
-      "Cuadros 100% pintados a mano, con medidas y diseños personalizados. Trabajamos bajo pedido y hacemos envíos a todo el país desde Quito, Ecuador.",
+      "Pulseras hechas a mano con materiales premium. Fuerza, estilo y poder en cada diseño. Envíos a todo el Ecuador desde Guayaquil.",
 
     images: [
       {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Art Design MAKR - Cuadros pintados a mano",
+        alt: "MVP Accesories - Pulseras para hombre hechas a mano",
       },
     ],
   },
@@ -90,10 +90,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
 
-    title: "Art Design MAKR",
+    title: "MVP Accesories",
 
     description:
-      "Cuadros 100% pintados a mano, personalizados en medida y diseño. Envíos a todo el Ecuador desde Quito.",
+      "Pulseras para hombre hechas a mano con materiales premium. Envíos a todo el Ecuador desde Guayaquil.",
 
     images: [`${SITE_URL}/twitter-image.jpg`],
   },
@@ -125,7 +125,7 @@ export const metadata: Metadata = {
     title: SITE_NAME,
   },
 
-  category: "Arte y Decoración",
+  category: "Moda y Accesorios",
 };
 
 export const viewport: Viewport = {
@@ -174,22 +174,6 @@ export default function RootLayout({
       </head>
 
       <body className="relative min-h-screen">
-
-        {/* Fondo móvil */}
-        <div
-          className="fixed inset-0 -z-20 bg-cover bg-center md:hidden"
-          style={{
-            backgroundImage: "url('/movil_bg.jpeg')",
-          }}
-        />
-
-        {/* Fondo tablet + desktop */}
-        <div
-          className="fixed inset-0 -z-20 hidden md:block bg-cover bg-center bg-fixed"
-          style={{
-            backgroundImage: "url('/laptopBg.jpeg')",
-          }}
-        />
 
         {/* Capa oscura */}
         <div className="fixed inset-0 -z-10 bg-black/45" />

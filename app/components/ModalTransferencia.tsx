@@ -24,19 +24,19 @@ const BANCOS_DISPONIBLES: DatosBanco[] = [
     id: "pichincha",
     banco: "Banco Pichincha",
     tipoCuenta: "Cuenta de Ahorros",
-    numeroCuenta: "2205458629",
-    titular: "Hernan Molero",
-    cedulaRuc: "1759369851",
-    correo: "art.design.makr@gmail.com",
+    numeroCuenta: "0000000000",
+    titular: "Juan Perez",
+    cedulaRuc: "0000000000",
+    correo: "mvpaccesories@gmail.com",
   },
   {
     id: "guayaquil",
     banco: "Banco de Guayaquil",
     tipoCuenta: "Cuenta de Ahorros",
-    numeroCuenta: "0035538351",
-    titular: "Hernan Molero",
-    cedulaRuc: "1759369851",
-    correo: "art.design.makr@gmail.com",
+    numeroCuenta: "0000000000",
+    titular: "Juan Perez",
+    cedulaRuc: "0000000000",
+    correo: "mvpaccesories@gmail.com",
   }
 ];
 
@@ -154,7 +154,7 @@ export default function ModalTransferencia({
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between px-5 sm:px-6 py-4 border-b border-white/10 bg-[#0a0a0a]">
           <div className="flex items-center gap-2">
-            <span className="material-icons-round text-red-600 text-xl">
+            <span className="material-icons-round text-amber-300 text-xl">
               account_balance
             </span>
             <h2 className="text-base sm:text-lg font-bold text-white">
@@ -188,49 +188,13 @@ export default function ModalTransferencia({
             </div>
             <button
               onClick={resetYCerrar}
-              className="mt-2 px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-colors"
+              className="mt-2 px-6 py-2.5 rounded-xl bg-amber-300 hover:bg-amber-400 text-white font-semibold text-sm transition-colors"
             >
               Listo
             </button>
           </div>
         ) : (
           <div className="px-5 sm:px-6 py-5 space-y-5">
-            {/* 1. Info del pago */}
-            <div className="rounded-2xl p-4 border border-red-600/25 bg-red-600/5 space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
-                Cómo funciona
-              </p>
-              <p className="text-sm text-white leading-relaxed">
-                Para reservar tu pedido, pagas un{" "}
-                <span className="font-bold text-red-500">
-                  {PORCENTAJE_INICIAL}% inicial
-                </span>{" "}
-                por transferencia. El resto se coordina directamente por
-                WhatsApp con nuestro equipo.
-              </p>
-              <div className="flex items-center justify-between text-sm pt-1">
-                <span className="text-white/50">Total del pedido</span>
-                <span className="font-semibold text-white">
-                  ${total.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-white/50">
-                  Pago inicial ({PORCENTAJE_INICIAL}%)
-                </span>
-                <span className="font-bold text-red-500">
-                  ${montoInicial.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-white/50">
-                  Restante (por WhatsApp)
-                </span>
-                <span className="text-white/50">
-                  ${montoRestante.toFixed(2)}
-                </span>
-              </div>
-            </div>
 
             {/* 2. Datos del cliente */}
             <div className="space-y-3">
@@ -246,7 +210,7 @@ export default function ModalTransferencia({
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
                   placeholder="Ej. María Fernanda Solórzano"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 bg-black text-white text-sm outline-none focus:border-red-600 transition-colors placeholder:text-white/30"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 bg-black text-white text-sm outline-none focus:border-amber-300 transition-colors placeholder:text-white/30"
                 />
               </div>
               <div>
@@ -258,7 +222,7 @@ export default function ModalTransferencia({
                   value={whatsapp}
                   onChange={(e) => setWhatsapp(e.target.value)}
                   placeholder="Ej. 0991234567"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 bg-black text-white text-sm outline-none focus:border-red-600 transition-colors placeholder:text-white/30"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 bg-black text-white text-sm outline-none focus:border-amber-300 transition-colors placeholder:text-white/30"
                 />
               </div>
             </div>
@@ -279,13 +243,13 @@ export default function ModalTransferencia({
                       onClick={() => setBancoSeleccionadoId(b.id)}
                       className={`flex items-center gap-2 px-3.5 py-3 rounded-xl border text-left text-sm font-semibold transition-colors ${
                         activo
-                          ? "border-red-600 bg-red-600/10 text-white"
+                          ? "border-amber-300 bg-red-600/10 text-white"
                           : "border-white/10 bg-black text-white/70 hover:border-white/30"
                       }`}
                     >
                       <span
                         className={`material-icons-round text-base ${
-                          activo ? "text-red-500" : "text-white/30"
+                          activo ? "text-amber-200" : "text-white/30"
                         }`}
                       >
                         {activo ? "radio_button_checked" : "radio_button_unchecked"}
@@ -323,7 +287,7 @@ export default function ModalTransferencia({
               <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
                 Comprobante de pago
               </p>
-              <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-white/15 rounded-2xl py-6 px-4 cursor-pointer hover:border-red-600 transition-colors bg-black">
+              <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-white/15 rounded-2xl py-6 px-4 cursor-pointer hover:border-amber-300 transition-colors bg-black">
                 <input
                   type="file"
                   accept="image/*"
@@ -354,7 +318,7 @@ export default function ModalTransferencia({
                     setImagen(null);
                     setPreviewURL("");
                   }}
-                  className="text-xs text-white/50 hover:text-red-500 transition-colors"
+                  className="text-xs text-white/50 hover:text-amber-300 transition-colors"
                 >
                   Quitar imagen
                 </button>
@@ -362,7 +326,7 @@ export default function ModalTransferencia({
             </div>
 
             {error && (
-              <div className="flex items-start gap-2 bg-red-600/10 border border-red-600/40 text-red-400 rounded-xl px-4 py-3 text-sm">
+              <div className="flex items-start gap-2 bg-red-600/10 border border-red-600/40 text-amber-300 rounded-xl px-4 py-3 text-sm">
                 <span className="material-icons-round text-base mt-0.5 shrink-0">
                   error_outline
                 </span>
@@ -373,7 +337,7 @@ export default function ModalTransferencia({
             <button
               onClick={handleEnviar}
               disabled={paso === "enviando"}
-              className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white font-extrabold text-sm rounded-xl transition-colors shadow-md"
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-amber-300 hover:bg-amber-400 disabled:opacity-60 text-white font-extrabold text-sm rounded-xl transition-colors shadow-md"
             >
               {paso === "enviando" ? (
                 <>

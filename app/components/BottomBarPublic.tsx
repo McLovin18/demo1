@@ -15,7 +15,7 @@ export default function BottomBarPublic() {
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 left-0 w-full border-t flex z-50"
+      className="lg:hidden fixed bottom-0 left-0 w-full border-t flex z-50 bg-black"
       style={{borderColor: "var(--border)" }}
     >
       <ul className="flex w-full justify-between items-center" style={{ color: "#ffffff" }}>

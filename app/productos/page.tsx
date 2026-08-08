@@ -295,83 +295,6 @@ export default function ProductosPage() {
       <BottomBarPublic />
       <main className="max-w-7xl mx-auto w-full px-3 sm:px-5 py-6 sm:py-15 flex-1">
 
-      {categorias.length > 0 && (
-        <div
-          ref={categoriesScrollRef}
-          className="mt-2 mb-8 w-full max-w-full flex items-center justify-start sm:justify-center gap-4 overflow-x-auto overflow-y-hidden pb-2 pl-4 pr-4 -mx-3 sm:mx-0 sm:px-3 sm:pr-2 no-scrollbar"
-          style={{ WebkitOverflowScrolling: "touch" }}
-        >
-          <button
-            type="button"
-            onClick={selectTodas}
-            className="flex flex-col items-center w-24 shrink-0 select-none"
-          >
-            <div
-              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 shadow-sm flex items-center justify-center ${
-                !categoria
-                  ? "border-red-600 ring-2 ring-white/20"
-                  : "border-white/20"
-              } bg-black`}
-            >
-              <span className="text-xs font-bold tracking-wide text-white/80">
-                TODOS
-              </span>
-            </div>
-
-            <span
-              className={`mt-2 text-sm ${
-                !categoria ? "text-white" : "text-white/70"
-              } text-center`}
-            >
-              Todos
-            </span>
-          </button>
-
-          {categorias.map((cat) => {
-            const selected = sameCategoryId(categoria, cat.id);
-
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => selectCategoria(cat.id)}
-                className="flex flex-col items-center w-24 shrink-0 select-none"
-              >
-                <div
-                  className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 shadow-sm overflow-hidden ${
-                    selected
-                      ? "border-red-600 ring-2 ring-white/20"
-                      : "border-white/20"
-                  } bg-black`}
-                >
-                  {cat.imagen ? (
-                    <img
-                      src={cat.imagen}
-                      alt={cat.nombre}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-2xl font-black text-white/70">
-                        {cat.nombre.slice(0, 1).toUpperCase()}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <span
-                  className={`mt-2 text-sm ${
-                    selected ? "text-white" : "text-white/70"
-                  } text-center leading-tight`}
-                >
-                  {cat.nombre}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-
         {loading ? (
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
             {Array.from({ length: 12 }).map((_, i) => (
@@ -413,7 +336,7 @@ export default function ProductosPage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 animate-in fade-in duration-700">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 animate-in fade-in duration-700">
               {paginatedProducts.map((p: any, index: number) => (
                 <ProductoCard
                   key={p.id}

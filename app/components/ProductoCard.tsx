@@ -42,18 +42,17 @@ const cardStyles = `
   }
 
   .pc-card:hover {
-    border-color: #e11d1d;
-    box-shadow: 0 8px 40px rgba(225,29,29,0.18);
+    border-color: #D4AF37;
+    box-shadow: 0 8px 40px rgba(212,175,55,0.18);
   }
 
   /* ── imagen ── */
-  /* aspect-ratio 4/5: misma proporción que se le pide al cliente para
-     las fotos (1200x1500px). Así el contenedor siempre encaja con la
-     imagen recomendada, sin colchón vacío, tanto en móvil como desktop. */
+  /* Wide/landscape: más ancho que alto, para que no sobre espacio
+     vertical alrededor de la imagen del producto. */
   .pc-img-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 16 / 9;
     background: #0a0a0a;
     overflow: hidden;
     flex-shrink: 0;
@@ -84,8 +83,8 @@ const cardStyles = `
     top: 10px;
     left: 10px;
     z-index: 10;
-    background: #e11d1d;
-    color: #ffffff;
+    background: #D4AF37;
+    color: #000000;
     font-family: 'Barlow', sans-serif;
     font-size: 10px;
     font-weight: 700;
@@ -143,8 +142,8 @@ const cardStyles = `
   .pc-fav.is-fav {
     opacity: 1;
     transform: scale(1);
-    background: #e11d1d;
-    color: #ffffff;
+    background: #D4AF37;
+    color: #000000;
   }
 
   .pc-card:hover .pc-fav {
@@ -224,11 +223,11 @@ const cardStyles = `
     opacity: 0.6;
   }
 
-  /* ── hover: todo el texto a rojo ── */
+  /* ── hover: todo el texto a dorado ── */
   .pc-card:hover .pc-name,
   .pc-card:hover .pc-price-final,
   .pc-card:hover .pc-price-old {
-    color: #e11d1d;
+    color: #D4AF37;
   }
 `;
 
@@ -349,8 +348,10 @@ function ProductoCard({
             )}
           </div>
 
-          {/* ── INFO (ahora sin contenedor con fondo) ── */}
+          {/* ── INFO ── */}
           <div className="pc-info">
+            <span className="pc-name">{producto.nombre}</span>
+
             {!isVisualOnlyProduct && (
               <div className="pc-prices">
                 {hasDiscount && (
