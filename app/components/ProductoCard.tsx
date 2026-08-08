@@ -37,12 +37,12 @@ const cardStyles = `
     background: #000000;
     overflow: hidden;
     cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid black;
     transition: border-color 0.25s, box-shadow 0.25s;
   }
 
   .pc-card:hover {
-    border-color: #D4AF37;
+    border-color: red;
     box-shadow: 0 8px 40px rgba(212,175,55,0.18);
   }
 
@@ -52,7 +52,7 @@ const cardStyles = `
   .pc-img-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 4 / 4;
     background: #0a0a0a;
     overflow: hidden;
     flex-shrink: 0;
@@ -83,7 +83,7 @@ const cardStyles = `
     top: 10px;
     left: 10px;
     z-index: 10;
-    background: #D4AF37;
+    background: red;
     color: #000000;
     font-family: 'Barlow', sans-serif;
     font-size: 10px;
@@ -112,7 +112,7 @@ const cardStyles = `
     text-transform: uppercase;
     color: #ffffff;
     background: #000000;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid red;
     padding: 5px 12px;
     border-radius: 2px;
   }
@@ -227,7 +227,7 @@ const cardStyles = `
   .pc-card:hover .pc-name,
   .pc-card:hover .pc-price-final,
   .pc-card:hover .pc-price-old {
-    color: #D4AF37;
+    color: red;
   }
 `;
 

@@ -17,9 +17,9 @@ export const revalidate = 1800;
 // Cambiar cuando tengas el dominio definitivo
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://mvpaccesories.com";
+  "https://garloec.com";
 
-const SITE_NAME = "MVP Accesories | Pulseras para Hombre en Guayaquil Ecuador";
+const SITE_NAME = "Garloec | Ropa, Calzado y Accesorios Ecuador";
 
 const sourceSerif4 = Source_Serif_4({
   subsets: ["latin"],
@@ -30,26 +30,26 @@ const sourceSerif4 = Source_Serif_4({
 
 export const metadata: Metadata = {
   title: {
-    default: "MVP Accesories | Pulseras para Hombre Hechas a Mano en Guayaquil",
-    template: "%s | MVP Accesories",
+    default: "Garloec | Fabricantes de Ropa, Calzado y Accesorios en Ecuador",
+    template: "%s | Garloec",
   },
 
   description:
-    "Pulseras para hombre hechas a mano con materiales premium. Diseños únicos que representan fuerza, estilo y poder. Envíos a todo el Ecuador desde Guayaquil.",
+    "La fábrica, marca y tienda de ropa más bacana del Ecuador. Ropa, calzado y accesorios con tiendas en Ambato y Esmeraldas, y envíos a todo el país.",
 
   keywords: [
-    "pulseras para hombre",
-    "pulseras hechas a mano Ecuador",
-    "accesorios para hombre Guayaquil",
-    "pulseras de moda Ecuador",
-    "accesorios masculinos premium",
-    "pulseras artesanales",
-    "regalos para hombre Ecuador",
-    "MVP Accesories",
-    "pulseras únicas",
-    "moda masculina Guayaquil",
-    "brazaletes para hombre",
-    "accesorios de acero para hombre",
+    "ropa Ecuador",
+    "fábrica de ropa Ecuador",
+    "calzado Ecuador",
+    "accesorios Ecuador",
+    "ropa Ambato",
+    "ropa Esmeraldas",
+    "tienda de ropa Ecuador",
+    "Garloec",
+    "moda ecuatoriana",
+    "ropa nacional Ecuador",
+    "zapatos Ecuador",
+    "ropa al por mayor Ecuador",
   ],
 
   creator: SITE_NAME,
@@ -72,17 +72,17 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: SITE_NAME,
 
-    title: "MVP Accesories | Pulseras para Hombre",
+    title: "Garloec | Ropa, Calzado y Accesorios",
 
     description:
-      "Pulseras hechas a mano con materiales premium. Fuerza, estilo y poder en cada diseño. Envíos a todo el Ecuador desde Guayaquil.",
+      "La fábrica, marca y tienda de ropa más bacana del Ecuador. Tiendas en Ambato y Esmeraldas, con envíos a todo el país.",
 
     images: [
       {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "MVP Accesories - Pulseras para hombre hechas a mano",
+        alt: "Garloec - Ropa, calzado y accesorios",
       },
     ],
   },
@@ -90,10 +90,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
 
-    title: "MVP Accesories",
+    title: "Garloec",
 
     description:
-      "Pulseras para hombre hechas a mano con materiales premium. Envíos a todo el Ecuador desde Guayaquil.",
+      "La fábrica, marca y tienda de ropa más bacana del Ecuador. Tiendas en Ambato y Esmeraldas.",
 
     images: [`${SITE_URL}/twitter-image.jpg`],
   },
@@ -125,7 +125,7 @@ export const metadata: Metadata = {
     title: SITE_NAME,
   },
 
-  category: "Moda y Accesorios",
+  category: "Ropa y Accesorios",
 };
 
 export const viewport: Viewport = {

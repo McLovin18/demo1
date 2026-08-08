@@ -5,6 +5,7 @@ import { Loading3DIcon } from "../components/Loading3DIcon";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 
 import { obtenerProductos } from "../lib/productos-db";
 import {
@@ -108,6 +109,48 @@ export default function ProductsByCategoryPage() {
   const [categorias, setCategorias] = useState<any[]>([]);
   const categoriesScrollRef = useRef<HTMLDivElement>(null);
 
+  // --- Estados del selector de categorías (hover desktop / click + portal mobile) ---
+  const [hoveredCatId, setHoveredCatId] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [dropdownPos, setDropdownPos] = useState<{
+    top: number;
+    left: number;
+    width: number;
+  } | null>(null);
+  const catButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const mobileDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Cierra el dropdown móvil solo si el scroll/resize ocurre FUERA del propio dropdown
+  useEffect(() => {
+    if (!isMobile || !hoveredCatId) return;
+    const close = (e: Event) => {
+      if (
+        mobileDropdownRef.current &&
+        e.target instanceof Node &&
+        mobileDropdownRef.current.contains(e.target)
+      ) {
+        return;
+      }
+      setHoveredCatId(null);
+      setDropdownPos(null);
+    };
+    window.addEventListener("scroll", close, true);
+    window.addEventListener("resize", close);
+    return () => {
+      window.removeEventListener("scroll", close, true);
+      window.removeEventListener("resize", close);
+    };
+  }, [isMobile, hoveredCatId]);
+
   // 1. Control de Montaje - Inicializa filtros desde URL
   useEffect(() => {
     setIsMounted(true);
@@ -140,6 +183,37 @@ export default function ProductsByCategoryPage() {
     setFilterSubsub("");
     router.replace("/products-by-category", { scroll: false });
   }, [router]);
+
+  // Abre el dropdown móvil calculando la posición real del botón en pantalla
+  const openMobileSubcats = useCallback((catId: string) => {
+    if (hoveredCatId === catId) {
+      setHoveredCatId(null);
+      setDropdownPos(null);
+      return;
+    }
+    const btn = catButtonRefs.current[catId];
+    if (btn) {
+      const rect = btn.getBoundingClientRect();
+      const dropdownWidth = 220;
+      const left = Math.min(
+        Math.max(rect.left, 16),
+        window.innerWidth - dropdownWidth - 16
+      );
+      setDropdownPos({
+        top: rect.bottom + 6,
+        left,
+        width: dropdownWidth,
+      });
+    }
+    setHoveredCatId(catId);
+  }, [hoveredCatId]);
+
+  const closeMobileSubcats = useCallback(() => {
+    setHoveredCatId(null);
+    setDropdownPos(null);
+  }, []);
+
+  const hoveredCat = categorias.find((c) => c.id === hoveredCatId);
 
   // 2. Fetch productos (siempre catálogo completo + filtro por árbol de categorías)
   useEffect(() => {
@@ -304,6 +378,136 @@ export default function ProductsByCategoryPage() {
 
       <main className="max-w-350 mx-auto w-full px-3 sm:px-5 py-8 flex-1">
         {/* Cabecera */}
+
+        {/* Categorías */}
+        {categorias.length > 0 && (
+          <div className="mb-6 relative z-50">
+            <div className={`${isMobile && !hoveredCatId ? 'overflow-x-auto' : ''} ${isMobile && hoveredCatId ? 'overflow-hidden' : ''} pb-2`}>
+              <div className="flex gap-2 min-w-max">
+                <button
+                  type="button"
+                  onClick={selectTodas}
+                  className={`px-4 py-2 rounded-full whitespace-nowrap font-medium text-sm transition-all ${
+                    !categoriaId
+                      ? "shadow-sm scale-105 bg-red-600 text-white border border-red-600"
+                      : "bg-white text-slate-900 border border-slate-300 hover:border-red-600/60 hover:shadow-sm"
+                  }`}
+                >
+                  Todas
+                </button>
+                {categorias.map((cat) => (
+                  <div
+                    key={cat.id}
+                    className="relative"
+                    onMouseEnter={() => !isMobile && setHoveredCatId(cat.id)}
+                    onMouseLeave={() => !isMobile && setHoveredCatId(null)}
+                  >
+                    <button
+                      type="button"
+                      ref={(el) => {
+                        catButtonRefs.current[cat.id] = el;
+                      }}
+                      onClick={() => {
+                        if (isMobile && cat.subcategorias && cat.subcategorias.length > 0) {
+                          openMobileSubcats(cat.id);
+                        } else {
+                          selectCategoria(cat.id);
+                        }
+                      }}
+                      className={`px-4 py-2 rounded-full whitespace-nowrap font-medium text-sm transition-all ${
+                        sameCategoryId(categoriaId, cat.id)
+                          ? "shadow-sm scale-105 bg-red-600 text-white border border-red-600"
+                          : "bg-white text-slate-900 border border-slate-300 hover:border-red-600/60 hover:shadow-sm"
+                      }`}
+                    >
+                      {cat.icono && <span className="mr-1">🏷️</span>}
+                      {cat.nombre}
+                      {cat.subcategorias && cat.subcategorias.length > 0 && (
+                        <span className="ml-1 text-xs">▼</span>
+                      )}
+                    </button>
+
+                    {/* Dropdown desktop: se mantiene igual (funciona bien) */}
+                    {!isMobile && cat.subcategorias && cat.subcategorias.length > 0 && hoveredCatId === cat.id && (
+                      <div className="absolute top-full mt-0 bg-white border border-slate-200 rounded-xl shadow-xl z-[99999] min-w-[200px] max-h-[300px] overflow-y-auto py-2">
+                        {cat.subcategorias.map((sub: any) => (
+                          <button
+                            key={sub.id}
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setFilterCat(cat.id);
+                              setFilterSub(sub.id);
+                              setFilterSubsub("");
+                              router.replace(`/products-by-category?cat=${encodeURIComponent(cat.id)}&sub=${encodeURIComponent(sub.id)}`, { scroll: false });
+                              setHoveredCatId(null);
+                            }}
+                            className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
+                              subcategoriaId === sub.id
+                                ? "bg-red-600 text-white"
+                                : "text-slate-900 hover:bg-slate-100"
+                            }`}
+                          >
+                            {sub.nombre}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Dropdown móvil: renderizado vía portal en document.body, posicionado con coordenadas reales del botón. Así escapa del scroll horizontal del carrusel de categorías y no se cierra al hacer scroll dentro de sí mismo. */}
+        {isMobile && hoveredCatId && dropdownPos && hoveredCat?.subcategorias?.length > 0 &&
+          typeof document !== "undefined" &&
+          createPortal(
+            <>
+              <div
+                className="fixed inset-0 z-[99998]"
+                onClick={closeMobileSubcats}
+              />
+              <div
+                ref={mobileDropdownRef}
+                style={{
+                  position: "fixed",
+                  top: dropdownPos.top,
+                  left: dropdownPos.left,
+                  width: dropdownPos.width,
+                }}
+                className="bg-white border border-slate-200 rounded-xl shadow-xl z-[99999] max-h-[300px] overflow-y-auto py-2"
+              >
+                {hoveredCat.subcategorias.map((sub: any) => (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFilterCat(hoveredCat.id);
+                      setFilterSub(sub.id);
+                      setFilterSubsub("");
+                      router.replace(
+                        `/products-by-category?cat=${encodeURIComponent(hoveredCat.id)}&sub=${encodeURIComponent(sub.id)}`,
+                        { scroll: false }
+                      );
+                      closeMobileSubcats();
+                    }}
+                    className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
+                      subcategoriaId === sub.id
+                        ? "bg-red-600 text-white"
+                        : "text-slate-900 hover:bg-slate-100"
+                    }`}
+                  >
+                    {sub.nombre}
+                  </button>
+                ))}
+              </div>
+            </>,
+            document.body
+          )}
+
         {/* Grid de productos o Loading */}
         {(!isMounted || loading) ? (
           <div className="flex flex-col items-center justify-center py-32 transition-opacity duration-500">
