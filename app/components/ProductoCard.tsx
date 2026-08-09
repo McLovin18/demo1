@@ -42,7 +42,7 @@ const cardStyles = `
   }
 
   .pc-card:hover {
-    border-color: red;
+    border-color: #DAA520;
     box-shadow: 0 8px 40px rgba(212,175,55,0.18);
   }
 
@@ -83,7 +83,7 @@ const cardStyles = `
     top: 10px;
     left: 10px;
     z-index: 10;
-    background: red;
+    background: #DAA520;
     color: #000000;
     font-family: 'Barlow', sans-serif;
     font-size: 10px;
@@ -112,7 +112,7 @@ const cardStyles = `
     text-transform: uppercase;
     color: #ffffff;
     background: #000000;
-    border: 1px solid red;
+    border: 1px solid #DAA520;
     padding: 5px 12px;
     border-radius: 2px;
   }
@@ -174,13 +174,13 @@ const cardStyles = `
   .pc-name {
     color: #ffffff;
     transition: color 0.25s ease;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 600;
   }
 
   @media (min-width: 640px) {
     .pc-name {
-    font-size: 22px;
+    font-size: 18px;
     }
   }
 
@@ -212,7 +212,7 @@ const cardStyles = `
     font-family: 'Barlow', sans-serif;
     font-weight: 400;
     font-size: 11px;
-    color: rgba(255,255,255,0.35);
+    color: #DAA520;
     text-decoration: line-through;
     transition: color 0.25s ease;
   }
@@ -227,7 +227,7 @@ const cardStyles = `
   .pc-card:hover .pc-name,
   .pc-card:hover .pc-price-final,
   .pc-card:hover .pc-price-old {
-    color: red;
+    color: #DAA520
   }
 `;
 

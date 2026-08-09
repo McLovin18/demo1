@@ -265,9 +265,9 @@ export default function CartPage() {
     </div>
   );
 
-  return (
+ return (
     <>
-      <div className="min-h-screen text-white transition-colors">
+      <div className="min-h-screen text-white bg-black transition-colors">
         <main className="max-w-6xl mx-auto px-3 sm:px-6 py-6 sm:py-10">
           <div className="flex items-center gap-3 mb-6">
             <h1 className="text-2xl sm:text-3xl font-bold text-white">
@@ -302,7 +302,7 @@ export default function CartPage() {
                   return (
                     <div
                       key={itemKey}
-                      className="bg-black rounded-2xl border border-red-500 shadow-sm p-4 flex gap-3 sm:gap-4 items-start"
+                      className="bg-black rounded-2xl border border-[#DAA520] shadow-sm p-4 flex gap-3 sm:gap-4 items-start"
                     >
                       <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden bg-[var(--muted)] border border-[var(--border)] flex items-center justify-center">
                         <img
@@ -313,16 +313,16 @@ export default function CartPage() {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-sm sm:text-base leading-tight line-clamp-2 text-[var(--text)]">
+                        <p className="font-semibold text-sm sm:text-base leading-tight line-clamp-2 text-white">
                           {p.nombre}
                         </p>
                         {p.selectedTalla && p.selectedColor && (
-                          <p className="text-xs text-[var(--textSecondary)] mt-0.5">
+                          <p className="text-xs text-white mt-0.5">
                             Talla {p.selectedTalla} · Color {p.selectedColor}
                           </p>
                         )}
                         {p.selectedVariations && p.variationAttributeIds && p.variationAttributeIds.length > 0 && (
-                          <p className="text-xs text-[var(--textSecondary)] mt-0.5">
+                          <p className="text-xs text-white mt-0.5">
                             {p.variationAttributeIds
                               .map((attrId: string) => {
                                 const atributo = atributos.find((a: any) => a.id === attrId);
@@ -338,15 +338,14 @@ export default function CartPage() {
                         {/* Personalización */}
                         {personalizacionFields.length > 0 && (
                           <div className="mt-1.5 rounded-lg border p-2 flex flex-col gap-0.5"
-                            style={{ borderColor: "red", background: "black" }}>
-                            <span className="text-[10px] font-semibold uppercase tracking-wide flex items-center gap-1"
-                              style={{ color: "var(--textSecondary)" }}>
+                            style={{ borderColor: "#DAA520", background: "black" }}>
+                            <span className="text-[10px] font-semibold uppercase tracking-wide flex items-center gap-1 text-white">
                               <span className="material-icons-round text-xs">auto_awesome</span>
                               Personalización
                             </span>
                             {personalizacionFields.map((campo, idx) => (
-                              <span key={idx} className="text-xs text-[var(--text)]">
-                                <span className="text-[var(--textSecondary)]">{campo.nombre}:</span> {campo.valor}
+                              <span key={idx} className="text-xs text-white">
+                                <span className="text-white">{campo.nombre}:</span> {campo.valor}
                               </span>
                             ))}
                           </div>
@@ -354,15 +353,15 @@ export default function CartPage() {
 
                         <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                           {hasDiscount && (
-                            <span className="text-xs text-[var(--textSecondary)] line-through">
+                            <span className="text-xs text-white line-through">
                               ${fakeOldPrice?.toFixed(2)}
                             </span>
                           )}
-                          <span className="text-sm font-bold text-[var(--text)]">
+                          <span className="text-sm font-bold text-white">
                             ${finalPrice.toFixed(2)}
                           </span>
                           {hasDiscount && (
-                            <span className="text-[10px] font-bold bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full">
+                            <span className="text-[10px] font-bold bg-[#DAA520]/10 text-[#DAA520] px-1.5 py-0.5 rounded-full">
                               -{discount}%
                             </span>
                           )}
@@ -372,33 +371,33 @@ export default function CartPage() {
                           <div className="flex items-center gap-1 bg-[var(--muted)] rounded-lg p-0.5">
                             <button
                               onClick={() => handleCantidad(itemKey, (p.cantidad || 1) - 1)}
-                              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-[var(--card)] transition-colors text-[var(--text)] font-bold text-base"
+                              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-[var(--card)] transition-colors text-white font-bold text-base"
                             >
                               -
                             </button>
-                            <span className="w-7 text-center text-sm font-semibold text-[var(--text)]">
+                            <span className="w-7 text-center text-sm font-semibold text-white">
                               {p.cantidad || 1}
                             </span>
                             <button
                               onClick={() => handleCantidad(itemKey, (p.cantidad || 1) + 1)}
-                              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-[var(--card)] transition-colors text-[var(--text)] font-bold text-base"
+                              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-[var(--card)] transition-colors text-white font-bold text-base"
                             >
                               +
                             </button>
                           </div>
-                          <span className="text-xs text-[var(--textSecondary)]">
+                          <span className="text-xs text-white">
                             {availableStock} en stock
                           </span>
                         </div>
                       </div>
 
                       <div className="flex flex-col items-end justify-between h-full gap-3 shrink-0">
-                        <span className="font-bold text-sm sm:text-base text-[var(--text)]">
+                        <span className="font-bold text-sm sm:text-base text-white">
                           ${lineTotal.toFixed(2)}
                         </span>
                         <button
                           onClick={() => removeCarrito(itemKey)}
-                          className="text-[var(--textSecondary)] hover:text-red-500 transition-colors"
+                          className="text-white hover:text-red-500 transition-colors"
                           title="Eliminar"
                         >
                           <span className="material-icons-round text-xl">delete_outline</span>
@@ -411,7 +410,7 @@ export default function CartPage() {
 
                 <a
                   href="/products-by-category"
-                  className="inline-flex items-center gap-1.5 text-sm text-white hover:text-red-500 hover:underline mt-1 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-sm text-white hover:text-[#DAA520] hover:underline mt-1 transition-colors"
                 >
                   <span className="material-icons-round text-base">arrow_back</span>
                   Continuar comprando
@@ -431,7 +430,7 @@ export default function CartPage() {
                       </div>
 
                     </div>
-                    <div className="border-t border-red-500 mt-3 pt-3 flex justify-between font-bold text-base">
+                    <div className="border-t border-[#DAA520] mt-3 pt-3 flex justify-between font-bold text-base">
                       <span className="text-white">Total</span>
                       <span className="text-white">${total.toFixed(2)}</span>
                     </div>
@@ -440,7 +439,7 @@ export default function CartPage() {
                   <div className="space-y-2.5">
                     <button
                       onClick={handleGenerarOrden}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-red-500 hover:bg-red-600 text-white font-extrabold text-sm rounded-xl transition-colors shadow-md"
+                      className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-[#DAA520] hover:bg-[#c2940f] text-black font-extrabold text-sm rounded-xl transition-colors shadow-md"
                       title="Enviar pedido por WhatsApp"
                     >
                       <span className="material-icons-round text-base">chat</span>
@@ -449,13 +448,13 @@ export default function CartPage() {
 
                     <button
                       onClick={handleAbrirTransferencia}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-black border border-white/15 hover:border-red-500 text-white font-bold text-sm rounded-xl transition-colors"
+                      className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-black border border-white/15 hover:border-[#DAA520] text-white font-bold text-sm rounded-xl transition-colors"
                       title="Pagar el 30% inicial por transferencia bancaria"
                     >
                       <span className="material-icons-round text-base">account_balance</span>
                       Pagar por Transferencia Bancaria
                     </button>
-                    <p className="text-[11px] text-center text-white/40">
+                    <p className="text-[11px] text-center text-white">
                       Reserva tu pedido con un 30% inicial. El resto se coordina por WhatsApp.
                     </p>
                   </div>
@@ -476,6 +475,3 @@ export default function CartPage() {
     </>
   );
 }
-
-
-

@@ -204,7 +204,7 @@ return (
               className="hidden lg:flex items-center leading-none"
             >
               <Image
-                src="/logo_garlo.png"
+                src="/logo_demo.png"
                 width={190}
                 height={60}
                 priority
@@ -220,7 +220,7 @@ return (
               className="pointer-events-auto flex flex-col items-center leading-none"
             >
               <Image
-                src="/logo_garlo.png"
+                src="/logo_demo.png"
                 alt="Art Design MAKR"
                 width={180}
                 height={62}
@@ -413,7 +413,7 @@ return (
       {mobileOpen && (
         <>
         <div
-          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm mb-12"
+          className="fixed inset-0 z-[99999] bg-black/70 backdrop-blur-sm mb-12"
           onClick={() => setMobileOpen(false)}
         >
           <div

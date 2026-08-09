@@ -2,8 +2,8 @@
 import BottomBarPublic from "../components/BottomBarPublic";
 import { useUser } from "../context/UserContext";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { createPortal } from "react-dom";
+import { useSearchParams } from "next/navigation";
 import ProductoCard from "../components/ProductoCard";
 import { Loading3DIcon } from "../components/Loading3DIcon";
 import { obtenerProductos } from "../lib/productos-db";
@@ -12,47 +12,31 @@ import {
   mapCategorySnapshot,
   sortCategoriasByOrder,
   sameCategoryId,
-  productMatchesCategoria,
-  productMatchesSubcategoria,
 } from "../lib/categorias-db";
 import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
-// Categoría de "Trabajos entregados" — solo debe mostrarse en la grilla
-// de productos cuando el usuario la selecciona explícitamente, nunca en "Todos".
-const TRABAJOS_ENTREGADOS_CAT_ID = "1785564342207";
-
 export default function SearchResultsPage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const queryParam = searchParams?.get("query") || "";
-  const categoriaFromUrl = (searchParams?.get("cat") || searchParams?.get("category") || "").trim();
-  const subcategoriaFromUrl = (searchParams?.get("subcat") || searchParams?.get("subcategory") || searchParams?.get("sub") || "").trim();
+  const categoriaId = (searchParams?.get("cat") || searchParams?.get("category") || "").trim();
   const isLogger = useUser();
 
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState(queryParam);
+  const [precioMin, setPrecioMin] = useState("");
+  const [precioMax, setPrecioMax] = useState("");
   const [orden, setOrden] = useState("price-high");
+  const [marca, setMarca] = useState("");
+  const [marcas, setMarcas] = useState([]);
   const [categorias, setCategorias] = useState<any[]>([]);
-  const categoriesScrollRef = useRef<HTMLDivElement>(null);
-
-  // Estado local de categoría/subcategoría (responde al instante, igual que en /productos)
-  const [filterCat, setFilterCat] = useState(categoriaFromUrl);
-  const [filterSub, setFilterSub] = useState(subcategoriaFromUrl);
-
-  useEffect(() => {
-    setFilterCat(categoriaFromUrl);
-    setFilterSub(subcategoriaFromUrl);
-  }, [categoriaFromUrl, subcategoriaFromUrl]);
-
-  const categoriaId = filterCat;
-  const subcategoriaId = filterSub;
-
-  // --- Estados del selector de categorías (hover desktop / click + portal mobile) ---
   const [hoveredCatId, setHoveredCatId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const categoriesScrollRef = useRef<HTMLDivElement>(null);
+
+  // Posición calculada del dropdown móvil (relativa al viewport, vía portal)
   const [dropdownPos, setDropdownPos] = useState<{
     top: number;
     left: number;
@@ -92,68 +76,6 @@ export default function SearchResultsPage() {
     };
   }, [isMobile, hoveredCatId]);
 
-  const buildUrl = useCallback(
-    (catId: string, subId: string) => {
-      const params = new URLSearchParams();
-      if (queryParam) params.set("query", queryParam);
-      if (catId) params.set("cat", catId);
-      if (subId) params.set("sub", subId);
-      const qs = params.toString();
-      return `/search-results${qs ? `?${qs}` : ""}`;
-    },
-    [queryParam]
-  );
-
-  const selectCategoria = useCallback(
-    (catId: string) => {
-      setFilterCat(catId);
-      setFilterSub("");
-      router.replace(buildUrl(catId, ""), { scroll: false });
-    },
-    [router, buildUrl]
-  );
-
-  const selectTodas = useCallback(() => {
-    setFilterCat("");
-    setFilterSub("");
-    router.replace(buildUrl("", ""), { scroll: false });
-  }, [router, buildUrl]);
-
-  // Abre el dropdown móvil calculando la posición real del círculo en pantalla
-  const openMobileSubcats = useCallback((catId: string) => {
-    if (hoveredCatId === catId) {
-      setHoveredCatId(null);
-      setDropdownPos(null);
-      return;
-    }
-    const btn = catButtonRefs.current[catId];
-    if (btn) {
-      const rect = btn.getBoundingClientRect();
-      const dropdownWidth = 220;
-      const left = Math.min(
-        Math.max(rect.left + rect.width / 2 - dropdownWidth / 2, 16),
-        window.innerWidth - dropdownWidth - 16
-      );
-      setDropdownPos({
-        top: rect.bottom + 6,
-        left,
-        width: dropdownWidth,
-      });
-    }
-    setHoveredCatId(catId);
-  }, [hoveredCatId]);
-
-  const closeMobileSubcats = useCallback(() => {
-    setHoveredCatId(null);
-    setDropdownPos(null);
-  }, []);
-
-  const hoveredCat = categorias.find((c) => c.id === hoveredCatId);
-
-  useEffect(() => {
-    setSearch(queryParam);
-  }, [queryParam]);
-
   // 🔥 Cargar productos
   useEffect(() => {
     async function fetchProductos() {
@@ -161,6 +83,8 @@ export default function SearchResultsPage() {
       const prods = await obtenerProductos();
       setProductos(prods);
       setLoading(false);
+      const marcasUnicas = Array.from(new Set(prods.map(p => p.marca).filter(Boolean)));
+      setMarcas(marcasUnicas);
     }
     fetchProductos();
   }, []);
@@ -182,26 +106,20 @@ export default function SearchResultsPage() {
     return productos
       .filter(p => {
         const coincideTexto = productMatches(p, search);
+        const coincideMarca = !marca || p.marca === marca;
+        const coincideCategoria =
+          !categoriaId || sameCategoryId(p.categoria, categoriaId);
 
-        let coincideCategoria = true;
-        if (categoriaId && categorias.length > 0) {
-          coincideCategoria = productMatchesCategoria(p, categoriaId, categorias);
-          if (coincideCategoria && subcategoriaId) {
-            coincideCategoria = productMatchesSubcategoria(
-              p,
-              categoriaId,
-              subcategoriaId,
-              categorias
-            );
-          }
-        } else if (categoriaId) {
-          coincideCategoria = sameCategoryId(p.categoria, categoriaId);
-        } else {
-          // "Todas": excluir siempre los productos de "Trabajos entregados"
-          coincideCategoria = !productMatchesCategoria(p, TRABAJOS_ENTREGADOS_CAT_ID, categorias);
-        }
+        const basePrice = Number(p.precio || 0);
+        const discount = Number(p.descuento || 0);
+        const finalPrice = discount > 0 && discount < 100 ? basePrice * (1 - discount / 100) : basePrice;
 
-        return coincideTexto && coincideCategoria;
+        const min = precioMin ? parseFloat(precioMin) : null;
+        const max = precioMax ? parseFloat(precioMax) : null;
+        const matchMin = min === null || finalPrice >= min;
+        const matchMax = max === null || finalPrice <= max;
+
+        return coincideTexto && coincideMarca && coincideCategoria && matchMin && matchMax;
       })
       .sort((a, b) => {
         const getFinalPrice = (p: any) => {
@@ -214,18 +132,18 @@ export default function SearchResultsPage() {
         if (a.createdAt && b.createdAt) return b.createdAt - a.createdAt;
         return 0;
       });
-  }, [productos, search, orden, categoriaId, subcategoriaId, categorias]);
+  }, [productos, search, precioMin, precioMax, orden, marca, categoriaId]);
 
 
 
       // --- Paginación responsive: 10 productos en móvil, cols*3 en desktop ---
       const [currentPage, setCurrentPage] = useState(1);
       const getProductsPerPage = () => {
-        if (typeof window !== 'undefined') {
-          if (window.innerWidth < 640) return 10; // móvil
-          if (window.innerWidth >= 1024) return 4 * 3; // lg: 4 cols x 3 filas
-          if (window.innerWidth >= 768) return 3 * 3; // md: 3 cols x 3 filas
-          if (window.innerWidth >= 640) return 2 * 3; // sm: 2 cols x 3 filas
+        if (typeof window !== "undefined") {
+          if (window.innerWidth < 640) return 10;
+          if (window.innerWidth >= 1024) return 15;
+          if (window.innerWidth >= 768) return 9;
+          if (window.innerWidth >= 640) return 6;
         }
         return 10;
       };
@@ -238,132 +156,142 @@ export default function SearchResultsPage() {
         handleResize();
         return () => window.removeEventListener('resize', handleResize);
       }, []);
-      useEffect(() => {
-        setCurrentPage(1);
-      }, [productosFiltrados.length, categoriaId, subcategoriaId]);
       const totalPages = Math.ceil(productosFiltrados.length / productsPerPage);
       const paginatedProducts = productosFiltrados.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
 
+
+
+  const hasFilters = search || precioMin || precioMax || marca || orden !== "newest";
+  const clearFilters = useCallback(() => {
+    setSearch("");
+    setPrecioMin("");
+    setPrecioMax("");
+    setMarca("");
+    setOrden("newest");
+  }, []);
+
+  const inputClass =
+    "w-[min(75vw,300px)] sm:w-[400px] px-3 py-1.5 sm:py-2.5 rounded-xl border border-slate-200 dark:border-white/20 bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/50 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-#e8c862 transition-all";
+
+  // 🔥 FilterPanel memoizado para no perder foco
+  const FilterPanel = useMemo(() => (
+    <div className="space-y-3 sm:space-y-5">
+      <div>
+        <label className="text-xs font-semibold mb-1 sm:mb-2 block text-slate-700 dark:text-white">Buscar</label>
+        <input
+          type="text"
+          placeholder="Nombre, descripción o categoría..."
+          className={inputClass}
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
+
+    </div>
+  ), [search]);
+
+  // Abre el dropdown móvil calculando la posición real del botón en pantalla
+  const openMobileSubcats = useCallback((catId: string) => {
+    if (hoveredCatId === catId) {
+      setHoveredCatId(null);
+      setDropdownPos(null);
+      return;
+    }
+    const btn = catButtonRefs.current[catId];
+    if (btn) {
+      const rect = btn.getBoundingClientRect();
+      const dropdownWidth = 220;
+      const left = Math.min(
+        Math.max(rect.left, 16),
+        window.innerWidth - dropdownWidth - 16
+      );
+      setDropdownPos({
+        top: rect.bottom + 6,
+        left,
+        width: dropdownWidth,
+      });
+    }
+    setHoveredCatId(catId);
+  }, [hoveredCatId]);
+
+  const closeMobileSubcats = useCallback(() => {
+    setHoveredCatId(null);
+    setDropdownPos(null);
+  }, []);
+
+  const hoveredCat = categorias.find((c) => c.id === hoveredCatId);
+
   return (
-    <div className="min-h-screen flex flex-col transition-colors bg-black text-white">
+    <div className=" min-h-screen flex flex-col bg-black dark:bg-black">
       <BottomBarPublic/>
 
-      <main className="max-w-7xl mx-auto w-full px-3 sm:px-5 py-6 sm:py-15 flex-1">
-        {queryParam && (
-          <p className="text-sm text-white/50 mb-4">
-            Resultados para <span className="text-white font-semibold">"{queryParam}"</span>
-          </p>
-        )}
+      <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8 flex-1">
+        <div className="mb-6">
+          {FilterPanel}
+        </div>
 
-        {/* ── Categorías — círculos, con subcategorías vía hover (desktop) o click (mobile, portal) ── */}
+        {/*Buscador de productos */}
         {categorias.length > 0 && (
-          <div className="mb-8 relative z-50">
-            <div
-              ref={categoriesScrollRef}
-              className="mt-2 w-full max-w-full flex items-center justify-start sm:justify-center gap-4 overflow-x-auto overflow-y-hidden pb-2 pl-4 pr-4 -mx-3 sm:mx-0 sm:px-3 sm:pr-2 no-scrollbar"
-              style={{ WebkitOverflowScrolling: "touch" }}
-            >
-              <button
-                type="button"
-                onClick={selectTodas}
-                className="flex flex-col items-center w-24 shrink-0 select-none"
-              >
-                <div
-                  className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 shadow-sm flex items-center justify-center ${
+          <div className="mb-6 relative z-50">
+            <div className={`${isMobile && !hoveredCatId ? 'overflow-x-auto' : ''} ${isMobile && hoveredCatId ? 'overflow-hidden' : ''} pb-2`}>
+              <div className="flex gap-2 min-w-max">
+                <button
+                  onClick={() => {
+                     window.location.href = `/search-results?query=${encodeURIComponent(queryParam)}`;
+                  }}
+                  className={`px-4 py-2 rounded-full whitespace-nowrap font-medium text-sm transition-all ${
                     !categoriaId
-                      ? "border-red-600 ring-2 ring-white/20"
-                      : "border-white/20"
-                  } bg-black`}
+                      ? "shadow-sm scale-105 bg-black text-white border border-black"
+                      : "bg-white text-slate-900 border border-slate-300 hover:border-black/60 hover:shadow-sm"
+                  }`}
                 >
-                  <span className="text-xs font-bold tracking-wide text-white/80">
-                    TODOS
-                  </span>
-                </div>
-
-                <span
-                  className={`mt-2 text-sm ${
-                    !categoriaId ? "text-white" : "text-white/70"
-                  } text-center`}
-                >
-                  Todos
-                </span>
-              </button>
-
-              {categorias.map((cat) => {
-                const selected = sameCategoryId(categoriaId, cat.id);
-                const hasSubcats = cat.subcategorias && cat.subcategorias.length > 0;
-
-                return (
+                  Todas
+                </button>
+                {categorias.map((cat) => (
                   <div
                     key={cat.id}
-                    className="relative shrink-0"
+                    className="relative"
                     onMouseEnter={() => !isMobile && setHoveredCatId(cat.id)}
                     onMouseLeave={() => !isMobile && setHoveredCatId(null)}
                   >
                     <button
-                      type="button"
                       ref={(el) => {
                         catButtonRefs.current[cat.id] = el;
                       }}
                       onClick={() => {
-                        if (isMobile && hasSubcats) {
+                        if (isMobile && cat.subcategorias && cat.subcategorias.length > 0) {
                           openMobileSubcats(cat.id);
                         } else {
-                          selectCategoria(cat.id);
+                          window.location.href = `/search-results?query=${encodeURIComponent(queryParam)}&cat=${encodeURIComponent(cat.id)}`;
                         }
                       }}
-                      className="flex flex-col items-center w-24 select-none"
+                      className={`px-4 py-2 rounded-full whitespace-nowrap font-medium text-sm transition-all ${
+                        categoriaId === cat.id
+                          ? "shadow-sm scale-105 bg-black text-white border border-black"
+                          : "bg-white text-slate-900 border border-slate-300 hover:border-black/60 hover:shadow-sm"
+                      }`}
                     >
-                      <div
-                        className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 shadow-sm overflow-hidden ${
-                          selected
-                            ? "border-red-600 ring-2 ring-white/20"
-                            : "border-white/20"
-                        } bg-black`}
-                      >
-                        {cat.imagen ? (
-                          <img
-                            src={cat.imagen}
-                            alt={cat.nombre}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-2xl font-black text-white/70">
-                              {cat.nombre.slice(0, 1).toUpperCase()}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      <span
-                        className={`mt-2 text-sm flex items-center gap-1 ${
-                          selected ? "text-white" : "text-white/70"
-                        } text-center leading-tight`}
-                      >
-                        {cat.nombre}
-                        {hasSubcats && <span className="text-[10px]">▼</span>}
-                      </span>
+                      {cat.icono && <span className="mr-1">🏷️</span>}
+                      {cat.nombre}
+                      {cat.subcategorias && cat.subcategorias.length > 0 && (
+                        <span className="ml-1 text-xs">▼</span>
+                      )}
                     </button>
-
-                    {/* Dropdown desktop: hover */}
-                    {!isMobile && hasSubcats && hoveredCatId === cat.id && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-black border border-white/15 rounded-xl shadow-xl z-[99999] min-w-[200px] max-h-[300px] overflow-y-auto py-2">
+                    {/* Dropdown desktop: se mantiene igual (funciona bien) */}
+                    {!isMobile && cat.subcategorias && cat.subcategorias.length > 0 && hoveredCatId === cat.id && (
+                      <div className="absolute top-full mt-0 bg-white border border-slate-200 rounded-xl shadow-xl z-[99999] min-w-[200px] max-h-[300px] overflow-y-auto py-2">
                         {cat.subcategorias.map((sub: any) => (
                           <button
                             key={sub.id}
-                            type="button"
                             onClick={(e) => {
                               e.stopPropagation();
-                              setFilterCat(cat.id);
-                              setFilterSub(sub.id);
-                              router.replace(buildUrl(cat.id, sub.id), { scroll: false });
+                              window.location.href = `/search-results?query=${encodeURIComponent(queryParam)}&cat=${encodeURIComponent(cat.id)}&sub=${encodeURIComponent(sub.id)}`;
                               setHoveredCatId(null);
                             }}
                             className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
-                              subcategoriaId === sub.id
-                                ? "bg-red-600 text-white"
-                                : "text-white/80 hover:bg-white/10"
+                              searchParams?.get("sub") === sub.id
+                                ? "bg-black text-white"
+                                : "text-slate-900 hover:bg-slate-100"
                             }`}
                           >
                             {sub.nombre}
@@ -372,13 +300,13 @@ export default function SearchResultsPage() {
                       </div>
                     )}
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
         )}
 
-        {/* Dropdown móvil: vía portal en document.body, posicionado con coordenadas reales del círculo. Escapa del scroll horizontal del carrusel y no se cierra al hacer scroll dentro de sí mismo. */}
+        {/* Dropdown móvil: renderizado vía portal en document.body, posicionado con coordenadas reales del botón. Así escapa del scroll horizontal del carrusel de categorías y no se cierra al hacer scroll dentro de sí mismo. */}
         {isMobile && hoveredCatId && dropdownPos && hoveredCat?.subcategorias?.length > 0 &&
           typeof document !== "undefined" &&
           createPortal(
@@ -395,23 +323,20 @@ export default function SearchResultsPage() {
                   left: dropdownPos.left,
                   width: dropdownPos.width,
                 }}
-                className="bg-black border border-white/15 rounded-xl shadow-xl z-[99999] max-h-[300px] overflow-y-auto py-2"
+                className="bg-white border border-slate-200 rounded-xl shadow-xl z-[99999] max-h-[300px] overflow-y-auto py-2"
               >
                 {hoveredCat.subcategorias.map((sub: any) => (
                   <button
                     key={sub.id}
-                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setFilterCat(hoveredCat.id);
-                      setFilterSub(sub.id);
-                      router.replace(buildUrl(hoveredCat.id, sub.id), { scroll: false });
+                      window.location.href = `/search-results?query=${encodeURIComponent(queryParam)}&cat=${encodeURIComponent(hoveredCat.id)}&sub=${encodeURIComponent(sub.id)}`;
                       closeMobileSubcats();
                     }}
                     className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
-                      subcategoriaId === sub.id
-                        ? "bg-red-600 text-white"
-                        : "text-white/80 hover:bg-white/10"
+                      searchParams?.get("sub") === sub.id
+                        ? "bg-black text-white"
+                        : "text-slate-900 hover:bg-slate-100"
                     }`}
                   >
                     {sub.nombre}
@@ -427,22 +352,15 @@ export default function SearchResultsPage() {
                 <Loading3DIcon />
               </div>
             ) : productosFiltrados.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center">
-                  <span className="material-icons-round text-3xl text-white/20">search_off</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-white/80">Sin resultados</p>
-                  <p className="text-sm text-white/30 mt-1 max-w-60">Prueba con otro término de búsqueda</p>
-                </div>
-              </div>
+              <p className="text-slate-700 dark:text-white/50">No hay resultados</p>
             ) : (
           <>
-              <div className="grid grid-cols-3 gap-2 lg:grid-cols-4 animate-in fade-in duration-700">
-                {paginatedProducts.map((p: any) => (
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 animate-in fade-in duration-700">              {paginatedProducts.map((p: any) => (
                 <ProductoCard
                   key={p.id}
                   producto={p}
+                  showCart
+                  showEye
                   isCompact={false}
                 />
               ))}
@@ -451,7 +369,7 @@ export default function SearchResultsPage() {
             {totalPages > 1 && (
               <div className="flex flex-wrap justify-center items-center gap-2 mt-8 select-none w-full">
                 <button
-                  className="px-3 py-1.5 rounded border text-xs font-medium bg-black border-white/15 text-white hover:border-red-600 transition-all disabled:opacity-40"
+                  className="px-3 py-1.5 rounded border text-xs font-medium bg-white border-slate-300 text-slate-900 hover:border-black/60 transition-all disabled:opacity-40"
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
                 >
@@ -460,14 +378,14 @@ export default function SearchResultsPage() {
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                   <button
                     key={n}
-                    className={`px-3 py-1.5 rounded border text-xs font-medium transition-all ${currentPage === n ? 'bg-red-600 border-red-600 text-white shadow-sm' : 'bg-black border-white/15 text-white hover:border-red-600'}`}
+                    className={`px-3 py-1.5 rounded border text-xs font-medium transition-all ${currentPage === n ? 'bg-black border-black text-white shadow-sm' : 'bg-white border-slate-300 text-slate-900 hover:border-black/60'}`}
                     onClick={() => setCurrentPage(n)}
                   >
                     {n}
                   </button>
                 ))}
                 <button
-                  className="px-3 py-1.5 rounded border text-xs font-medium bg-black border-white/15 text-white hover:border-red-600 transition-all disabled:opacity-40"
+                  className="px-3 py-1.5 rounded border text-xs font-medium bg-white border-slate-300 text-slate-900 hover:border-black/60 transition-all disabled:opacity-40"
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
                 >
