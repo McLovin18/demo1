@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import BottomBarPublic from "./components/BottomBarPublic";
 import WhatsAppFloatingButton from "./components/WhatsAppFloatingButton";
+import HomeCategoriesProductsSection from "./components/HomeCategoriesProductsSection";
 import { SectionRenderer } from "./landing/sectionRegistry";
 import { getLandingPage } from "./lib/landing-db";
 import { obtenerProductos } from "./lib/productos-db";
@@ -17,6 +18,7 @@ export default function Home() {
     sections?: LandingSection[];
     featuredProducts?: string[];
   } | null>(null);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
   const [featuredProductsResolved, setFeaturedProductsResolved] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,29 +32,22 @@ export default function Home() {
           obtenerProductos(),
         ]);
 
-        const highlighted = (products || []).filter((p: any) => Boolean(p?.destacado));
-        const highlightedById = new Map(
-          highlighted
-            .filter((p: any) => p?.id)
-            .map((p: any) => [String(p.id), p])
-        );
-
-        const orderedIds = (data?.featuredProducts || []).map((id: any) => String(id));
-        const ordered = orderedIds
-          .map((id: string) => highlightedById.get(id))
-          .filter(Boolean);
-
-        const orderedSet = new Set(ordered.map((p: any) => String(p.id)));
-        const missing = highlighted.filter((p: any) => !orderedSet.has(String(p.id)));
+        // Get all products, sort by newest first, take top 8
+        const recentProducts = (products || [])
+          .filter((p: any) => p?.id)
+          .sort((a: any, b: any) => (b.createdAt || 0) - (a.createdAt || 0))
+          .slice(0, 40);
 
         if (mounted) {
           setLanding(data);
-          setFeaturedProductsResolved([...ordered, ...missing]);
+          setAllProducts(products || []);
+          setFeaturedProductsResolved(recentProducts);
         }
       } catch (error) {
         console.error("Error cargando landing publicada:", error);
         if (mounted) {
           setLanding(null);
+          setAllProducts([]);
           setFeaturedProductsResolved([]);
         }
       } finally {
@@ -157,18 +152,17 @@ const lastHeroIndex = useMemo(() => {
 
   return (
     <>
-      <WhatsAppFloatingButton />
-      <main className="min-h-screen w-full bg-black text-slate-900 dark:bg-slate-950 dark:text-white">
+      <main className="min-h-screen w-full" style={{color: "var(--text)" }}>
         {loading ? (
         <div
-            className="w-full bg-slate-950 relative overflow-hidden"
-            style={{ aspectRatio: "2400 / 1000", minHeight: "300px" }}
+            className="w-full relative overflow-hidden"
+            style={{ aspectRatio: "2400 / 1000", minHeight: "300px"}}
         >
-            <div className="absolute inset-0 bg-slate-900" />
+            <div className="absolute inset-0" />
             <div
             className="absolute inset-0"
             style={{
-                background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)",
+                background: "linear-gradient(90deg, transparent 0%, rgba(252, 211, 77, 0.1) 50%, transparent 100%)",
                 animation: "shimmer 1.8s infinite",
                 backgroundSize: "200% 100%",
             }}
