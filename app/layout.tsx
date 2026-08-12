@@ -1,9 +1,4 @@
 import "./globals.css";
-
-import Footer from "./components/Footer";
-import { cookies } from "next/headers";
-import Navbar from "./components/Navbar";
-import { UserProvider } from "./context/UserContext";
 import { OnboardingProvider } from "./context/OnboardingContext";
 import { ToastProvider } from "./context/ToastContext";
 import LayoutContentClient from "./components/LayoutContentClient";
@@ -16,8 +11,8 @@ import { Inter } from "next/font/google";
 // Optimiza regeneración de página principal y otros contenidos estáticos
 export const revalidate = 1800;
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conarte.ec";
-const SITE_NAME = "Con Arte";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://stellamaris.com";
+const SITE_NAME = "Stella Maris";
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "600"],
@@ -32,26 +27,26 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Con Arte | Regalos Personalizados en Santo Domingo, Ecuador",
-    template: "%s | Con Arte",
+    default: "Stella Maris | Carteras Artesanales de Paja Toquilla, Ecuador",
+    template: "%s | Stella Maris",
   },
   description:
-    "Regalos personalizados que emocionan. Detalles únicos para parejas, amigos y ocasiones especiales, con envíos a todo Ecuador desde Santo Domingo.",
+    "Carteras artesanales tejidas a mano en paja toquilla. Piezas únicas 100% ecuatorianas, hechas con propósito, estilo y elegancia, con envíos a todo Ecuador.",
   keywords: [
-    "regalos personalizados Ecuador",
-    "regalos para parejas",
-    "regalos originales Ecuador",
-    "tienda de regalos Santo Domingo",
-    "detalles personalizados",
-    "regalos para aniversario",
-    "regalos San Valentín Ecuador",
-    "Con Arte",
-    "regalos únicos Ecuador",
-    "regalos para amigos",
-    "cajas de regalo personalizadas",
-    "detalles para ocasiones especiales",
+    "carteras artesanales Ecuador",
+    "carteras de paja toquilla",
+    "bolsos tejidos a mano",
+    "accesorios de paja toquilla",
+    "carteras hechas a mano Ecuador",
+    "artesanía ecuatoriana",
+    "moda sostenible Ecuador",
+    "Stella Maris",
+    "bolsos artesanales ecuatorianos",
+    "carteras tejidas Ecuador",
+    "regalos artesanales Ecuador",
+    "accesorios de moda Ecuador",
   ],
-  creator: "Con Arte",
+  creator: "Stella Maris",
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: "/favicon.ico",
@@ -59,22 +54,22 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
-  
+
   // Open Graph - Redes Sociales
   openGraph: {
     type: "website",
     locale: "es_EC",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "Con Arte | Regalos Personalizados",
+    title: "Stella Maris | Carteras Artesanales de Paja Toquilla",
     description:
-      "Regalos personalizados que emocionan. Detalles únicos para parejas, amigos y ocasiones especiales, con envíos a todo Ecuador.",
+      "Carteras artesanales tejidas a mano en paja toquilla. Piezas únicas 100% ecuatorianas, con envíos a todo Ecuador.",
     images: [
       {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Con Arte - Regalos Personalizados",
+        alt: "Stella Maris - Carteras Artesanales de Paja Toquilla",
         type: "image/jpeg",
       },
     ],
@@ -83,9 +78,9 @@ export const metadata: Metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "Con Arte | Regalos Personalizados",
+    title: "Stella Maris | Carteras Artesanales de Paja Toquilla",
     description:
-      "Regalos personalizados que emocionan. Envíos a todo Ecuador desde Santo Domingo.",
+      "Carteras artesanales tejidas a mano en paja toquilla, 100% ecuatorianas.",
     images: [`${SITE_URL}/twitter-image.jpg`],
   },
 
@@ -120,7 +115,7 @@ export const metadata: Metadata = {
     title: SITE_NAME,
   },
 
-  category: "Regalos y Detalles",
+  category: "Moda y Accesorios",
 };
 
 // Viewport export - separate from metadata in Next.js 16
@@ -135,7 +130,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={`${cormorantGaramond.variable} ${inter.variable}`}>
       <head>
-                {/* Google Analytics gtag.js - insertado justo después de <head> */}
+        {/* Google Analytics gtag.js - insertado justo después de <head> */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-K1Q0MYDSKF"></script>
         <script
           dangerouslySetInnerHTML={{

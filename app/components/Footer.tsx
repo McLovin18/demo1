@@ -13,7 +13,6 @@ const IconInstagram = () => (
   </svg>
 );
 
-
 const IconLocation = () => (
   <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
     <path d="M12 2C7.589 2 4 5.589 4 9.995 4 15.991 12 22 12 22s8-6.009 8-12.005C20 5.589 16.411 2 12 2zm0 10.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
@@ -27,12 +26,12 @@ const IconWhatsApp = () => (
 );
 
 const socialLinks = [
-  { href: "https://www.instagram.com/conarte.ec/", label: "Instagram", Icon: IconInstagram },
+  { href: "https://www.instagram.com/stellamaris.straw/", label: "Instagram", Icon: IconInstagram },
 ];
 
 // 👉 Información del negocio
-const WHATSAPP_NUMBER = "593994601273"; // solo números, con código de país, sin '+' ni espacios
-const WHATSAPP_DISPLAY = "+593 99 460 1273"; // como se muestra al usuario
+const WHATSAPP_NUMBER = "593939945347"; // solo números, con código de país, sin '+' ni espacios
+const WHATSAPP_DISPLAY = "+593 93 994 5347"; // como se muestra al usuario
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
@@ -80,7 +79,7 @@ const Footer: React.FC = () => {
             {/* Columna 1: Información de la tienda */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
               <span className="text-base font-bold tracking-wide text-white">
-                Con Arte
+                Stella Maris
               </span>
 
               {instagramEnabled && instagramFollowers !== null && instagramFollowers > 0 && (
@@ -93,11 +92,11 @@ const Footer: React.FC = () => {
               )}
 
               <div className="text-xs text-white/60 mt-1 max-w-[220px]">
-                <p>Tienda de regalos personalizados que emocionan</p>
-                <p>Para parejas, amigos y ocasiones especiales</p>
+                <p>Carteras artesanales de paja toquilla</p>
+                <p>Piezas únicas con propósito, estilo y elegancia</p>
                 <p className="flex items-center gap-1 justify-center md:justify-start mt-0.5">
                   <IconLocation />
-                  Santo Domingo, Ecuador
+                  Ecuador
                 </p>
               </div>
             </div>
@@ -161,7 +160,7 @@ const Footer: React.FC = () => {
         {/* Copyright row */}
         <div className={styles.ftCopyRow}>
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} Con Arte. Todos los derechos reservados.
+            © {new Date().getFullYear()} Stella Maris. Todos los derechos reservados.
           </p>
           <div className={styles.ftCopyRight}>
             <div className="flex items-center gap-1.5 text-xs text-white/60">
