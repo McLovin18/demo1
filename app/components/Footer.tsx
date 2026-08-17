@@ -26,12 +26,12 @@ const IconWhatsApp = () => (
 );
 
 const socialLinks = [
-  { href: "https://www.instagram.com/stellamaris.straw/", label: "Instagram", Icon: IconInstagram },
+  { href: "https://www.instagram.com/grlpower_ec/", label: "Instagram", Icon: IconInstagram },
 ];
 
 // 👉 Información del negocio
-const WHATSAPP_NUMBER = "593939945347"; // solo números, con código de país, sin '+' ni espacios
-const WHATSAPP_DISPLAY = "+593 93 994 5347"; // como se muestra al usuario
+const WHATSAPP_NUMBER = "593961153826"; // solo números, con código de país, sin '+' ni espacios
+const WHATSAPP_DISPLAY = "+593 96 115 3826"; // como se muestra al usuario
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
             {/* Columna 1: Información de la tienda */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
               <span className="text-base font-bold tracking-wide text-white">
-                Stella Maris
+                GRL Power
               </span>
 
               {instagramEnabled && instagramFollowers !== null && instagramFollowers > 0 && (
@@ -92,8 +92,8 @@ const Footer: React.FC = () => {
               )}
 
               <div className="text-xs text-white/60 mt-1 max-w-[220px]">
-                <p>Carteras artesanales de paja toquilla</p>
-                <p>Piezas únicas con propósito, estilo y elegancia</p>
+                <p>Zapatos personalizados, diseñados por ti</p>
+                <p>Pick up y envíos a todo Ecuador</p>
                 <p className="flex items-center gap-1 justify-center md:justify-start mt-0.5">
                   <IconLocation />
                   Ecuador
@@ -116,7 +116,7 @@ const Footer: React.FC = () => {
                     <li key={label}>
                       <a
                         href={href}
-                        className="flex items-center justify-center w-9 h-9 rounded-full border border-white/15 text-white transition-colors hover:bg-[#DAA520] hover:border-[#DAA520] hover:text-black"
+                        className="flex items-center justify-center w-9 h-9 rounded-full border border-white/15 text-white transition-colors hover:bg-[#FF3D8A] hover:border-[#FF3D8A] hover:text-black"
                         target="_blank"
                         rel="noreferrer"
                         title={label}
@@ -142,7 +142,7 @@ const Footer: React.FC = () => {
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 text-xl text-white/70 hover:text-[#DAA520] transition-colors"
+                className="flex items-center gap-2 text-xl text-white/70 hover:text-[#FF3D8A] transition-colors"
                 onClick={() => trackLinkClick().catch(console.error)}
               >
                 <span>{WHATSAPP_DISPLAY}</span>
@@ -160,11 +160,11 @@ const Footer: React.FC = () => {
         {/* Copyright row */}
         <div className={styles.ftCopyRow}>
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} Stella Maris. Todos los derechos reservados.
+            © {new Date().getFullYear()} GRL Power. Todos los derechos reservados.
           </p>
           <div className={styles.ftCopyRight}>
             <div className="flex items-center gap-1.5 text-xs text-white/60">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#DAA520]" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#FF3D8A]" />
               Hecho en Ecuador
             </div>
 
@@ -172,7 +172,7 @@ const Footer: React.FC = () => {
               href="https://www.instagram.com/hector.cobena/"
               target="_blank"
               rel="noreferrer"
-              className="text-xs text-white/50 hover:text-[#DAA520] transition-colors"
+              className="text-xs text-white/50 hover:text-[#FF3D8A] transition-colors"
               onClick={() => trackLinkClick().catch(console.error)}
             >
               Desarrollado por Héctor Cobeña

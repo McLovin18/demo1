@@ -204,7 +204,7 @@ return (
               className="hidden lg:flex items-center leading-none"
             >
               <Image
-                src="/logo_01.png"
+                src="/logo_grl.png"
                 alt="logo"
                 width={190}
                 height={60}
@@ -221,7 +221,7 @@ return (
               className="pointer-events-auto flex flex-col items-center leading-none"
             >
               <Image
-                src="/logo_01.png"
+                src="/logo_grl.png"
                 alt="Art Design MAKR"
                 width={180}
                 height={62}
@@ -431,7 +431,7 @@ return (
                 className="font-bold text-base"
                 style={{ color: "#ffffff", letterSpacing: "0.08em" }}
               >
-                Garlo
+                Grl Power
               </span>
               <button
                 onClick={() => setMobileOpen(false)}

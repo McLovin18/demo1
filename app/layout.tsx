@@ -11,8 +11,8 @@ import { Inter } from "next/font/google";
 // Optimiza regeneración de página principal y otros contenidos estáticos
 export const revalidate = 1800;
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://stellamaris.com";
-const SITE_NAME = "Stella Maris";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://grlpower.com"; // ⚠️ Reemplazar con dominio de producción
+const SITE_NAME = "GRL Power";
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "600"],
@@ -27,26 +27,26 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Stella Maris | Carteras Artesanales de Paja Toquilla, Ecuador",
-    template: "%s | Stella Maris",
+    default: "GRL Power | Zapatos Personalizados, Ecuador",
+    template: "%s | GRL Power",
   },
   description:
-    "Carteras artesanales tejidas a mano en paja toquilla. Piezas únicas 100% ecuatorianas, hechas con propósito, estilo y elegancia, con envíos a todo Ecuador.",
+    "Diseña tus propios zapatos con GRL Power. Calzado personalizado hecho a tu medida y estilo, con pick up y envíos a todo Ecuador.",
   keywords: [
-    "carteras artesanales Ecuador",
-    "carteras de paja toquilla",
-    "bolsos tejidos a mano",
-    "accesorios de paja toquilla",
-    "carteras hechas a mano Ecuador",
-    "artesanía ecuatoriana",
-    "moda sostenible Ecuador",
-    "Stella Maris",
-    "bolsos artesanales ecuatorianos",
-    "carteras tejidas Ecuador",
-    "regalos artesanales Ecuador",
-    "accesorios de moda Ecuador",
+    "zapatos personalizados Ecuador",
+    "calzado personalizado",
+    "diseña tus zapatos",
+    "zapatos a medida Ecuador",
+    "GRL Power",
+    "girl power zapatos",
+    "moda femenina Ecuador",
+    "calzado hecho a mano Ecuador",
+    "tenis personalizados Ecuador",
+    "zapatos únicos Ecuador",
+    "envíos nacionales calzado",
+    "emprendimiento femenino Ecuador",
   ],
-  creator: "Stella Maris",
+  creator: "GRL Power",
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: "/favicon.ico",
@@ -61,15 +61,15 @@ export const metadata: Metadata = {
     locale: "es_EC",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "Stella Maris | Carteras Artesanales de Paja Toquilla",
+    title: "GRL Power | Zapatos Personalizados",
     description:
-      "Carteras artesanales tejidas a mano en paja toquilla. Piezas únicas 100% ecuatorianas, con envíos a todo Ecuador.",
+      "Diseña tus propios zapatos con GRL Power. Calzado personalizado hecho a tu medida, con pick up y envíos a todo Ecuador.",
     images: [
       {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Stella Maris - Carteras Artesanales de Paja Toquilla",
+        alt: "GRL Power - Zapatos Personalizados",
         type: "image/jpeg",
       },
     ],
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "Stella Maris | Carteras Artesanales de Paja Toquilla",
+    title: "GRL Power | Zapatos Personalizados",
     description:
-      "Carteras artesanales tejidas a mano en paja toquilla, 100% ecuatorianas.",
+      "Calzado personalizado hecho a tu medida y estilo, 100% ecuatoriano.",
     images: [`${SITE_URL}/twitter-image.jpg`],
   },
 
@@ -115,7 +115,7 @@ export const metadata: Metadata = {
     title: SITE_NAME,
   },
 
-  category: "Moda y Accesorios",
+  category: "Moda y Calzado",
 };
 
 // Viewport export - separate from metadata in Next.js 16
@@ -132,6 +132,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Google Analytics gtag.js - insertado justo después de <head> */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-K1Q0MYDSKF"></script>
+        {/* ⚠️ Reemplazar G-K1Q0MYDSKF con el ID de Analytics propio de GRL Power */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
