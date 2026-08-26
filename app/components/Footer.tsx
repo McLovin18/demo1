@@ -26,12 +26,12 @@ const IconWhatsApp = () => (
 );
 
 const socialLinks = [
-  { href: "https://www.instagram.com/grlpower_ec/", label: "Instagram", Icon: IconInstagram },
+  { href: "https://www.instagram.com/camiliss.ec/", label: "Instagram", Icon: IconInstagram },
 ];
 
 // 👉 Información del negocio
-const WHATSAPP_NUMBER = "593961153826"; // solo números, con código de país, sin '+' ni espacios
-const WHATSAPP_DISPLAY = "+593 96 115 3826"; // como se muestra al usuario
+const WHATSAPP_NUMBER = "593999876981"; // solo números, con código de país, sin '+' ni espacios
+const WHATSAPP_DISPLAY = "+593 99 987 6981"; // como se muestra al usuario
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
             {/* Columna 1: Información de la tienda */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
               <span className="text-base font-bold tracking-wide text-white">
-                GRL Power
+                Camiliss
               </span>
 
               {instagramEnabled && instagramFollowers !== null && instagramFollowers > 0 && (
@@ -92,11 +92,11 @@ const Footer: React.FC = () => {
               )}
 
               <div className="text-xs text-white/60 mt-1 max-w-[220px]">
-                <p>Zapatos personalizados, diseñados por ti</p>
-                <p>Pick up y envíos a todo Ecuador</p>
+                <p>Calzado &amp; Accesorios para mujer</p>
+                <p>Envíos a todo el País | Compra Segura</p>
                 <p className="flex items-center gap-1 justify-center md:justify-start mt-0.5">
                   <IconLocation />
-                  Ecuador
+                  Guayaquil, Ecuador
                 </p>
               </div>
             </div>
@@ -160,7 +160,7 @@ const Footer: React.FC = () => {
         {/* Copyright row */}
         <div className={styles.ftCopyRow}>
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} GRL Power. Todos los derechos reservados.
+            © {new Date().getFullYear()} Camiliss. Todos los derechos reservados.
           </p>
           <div className={styles.ftCopyRight}>
             <div className="flex items-center gap-1.5 text-xs text-white/60">

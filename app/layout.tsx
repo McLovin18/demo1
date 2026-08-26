@@ -11,8 +11,8 @@ import { Inter } from "next/font/google";
 // Optimiza regeneración de página principal y otros contenidos estáticos
 export const revalidate = 1800;
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://grlpower.com"; // ⚠️ Reemplazar con dominio de producción
-const SITE_NAME = "GRL Power";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://camiliss.ec"; // ⚠️ Reemplazar con dominio de producción
+const SITE_NAME = "Camiliss";
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "600"],
@@ -27,26 +27,24 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "GRL Power | Zapatos Personalizados, Ecuador",
-    template: "%s | GRL Power",
+    default: "Camiliss | Calzado y Accesorios para Mujer, Ecuador",
+    template: "%s | Camiliss",
   },
   description:
-    "Diseña tus propios zapatos con GRL Power. Calzado personalizado hecho a tu medida y estilo, con pick up y envíos a todo Ecuador.",
+    "Camiliss Collection: calzado y accesorios para mujer en Guayaquil, Ecuador. Envíos a todo el país y compra segura.",
   keywords: [
-    "zapatos personalizados Ecuador",
-    "calzado personalizado",
-    "diseña tus zapatos",
-    "zapatos a medida Ecuador",
-    "GRL Power",
-    "girl power zapatos",
+    "calzado para mujer Ecuador",
+    "accesorios para mujer Ecuador",
+    "zapatos mujer Guayaquil",
+    "Camiliss",
+    "Camiliss Collection",
     "moda femenina Ecuador",
-    "calzado hecho a mano Ecuador",
-    "tenis personalizados Ecuador",
-    "zapatos únicos Ecuador",
+    "calzado Guayaquil",
+    "accesorios de moda Ecuador",
     "envíos nacionales calzado",
     "emprendimiento femenino Ecuador",
   ],
-  creator: "GRL Power",
+  creator: "Camiliss",
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: "/favicon.ico",
@@ -61,15 +59,15 @@ export const metadata: Metadata = {
     locale: "es_EC",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "GRL Power | Zapatos Personalizados",
+    title: "Camiliss | Calzado y Accesorios para Mujer",
     description:
-      "Diseña tus propios zapatos con GRL Power. Calzado personalizado hecho a tu medida, con pick up y envíos a todo Ecuador.",
+      "Camiliss Collection: calzado y accesorios para mujer en Guayaquil, Ecuador. Envíos a todo el país y compra segura.",
     images: [
       {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "GRL Power - Zapatos Personalizados",
+        alt: "Camiliss - Calzado y Accesorios para Mujer",
         type: "image/jpeg",
       },
     ],
@@ -78,9 +76,9 @@ export const metadata: Metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "GRL Power | Zapatos Personalizados",
+    title: "Camiliss | Calzado y Accesorios para Mujer",
     description:
-      "Calzado personalizado hecho a tu medida y estilo, 100% ecuatoriano.",
+      "Calzado y accesorios para mujer, 100% ecuatoriano. Envíos a todo el país.",
     images: [`${SITE_URL}/twitter-image.jpg`],
   },
 
@@ -132,7 +130,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Google Analytics gtag.js - insertado justo después de <head> */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-K1Q0MYDSKF"></script>
-        {/* ⚠️ Reemplazar G-K1Q0MYDSKF con el ID de Analytics propio de GRL Power */}
+        {/* ⚠️ Reemplazar G-K1Q0MYDSKF con el ID de Analytics propio de Camiliss */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
