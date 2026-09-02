@@ -26,12 +26,12 @@ const IconWhatsApp = () => (
 );
 
 const socialLinks = [
-  { href: "https://www.instagram.com/camiliss.ec/", label: "Instagram", Icon: IconInstagram },
+  { href: "https://www.instagram.com/vaneseshop/", label: "Instagram", Icon: IconInstagram },
 ];
 
 // 👉 Información del negocio
-const WHATSAPP_NUMBER = "593999876981"; // solo números, con código de país, sin '+' ni espacios
-const WHATSAPP_DISPLAY = "+593 99 987 6981"; // como se muestra al usuario
+const WHATSAPP_NUMBER = "593984880468"; // solo números, con código de país, sin '+' ni espacios
+const WHATSAPP_DISPLAY = "+593 98 488 0468"; // como se muestra al usuario
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
             {/* Columna 1: Información de la tienda */}
             <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
               <span className="text-base font-bold tracking-wide text-white">
-                Camiliss
+                vaneseshop
               </span>
 
               {instagramEnabled && instagramFollowers !== null && instagramFollowers > 0 && (
@@ -92,11 +92,12 @@ const Footer: React.FC = () => {
               )}
 
               <div className="text-xs text-white/60 mt-1 max-w-[220px]">
-                <p>Calzado &amp; Accesorios para mujer</p>
-                <p>Envíos a todo el País | Compra Segura</p>
+                <p>Vanessa Salazar | Artista Visual</p>
+                <p>Piezas con identidad e historia</p>
+                <p>Textil • Pintura • Sombreros de autor</p>
                 <p className="flex items-center gap-1 justify-center md:justify-start mt-0.5">
                   <IconLocation />
-                  Guayaquil, Ecuador
+                  Ecuador
                 </p>
               </div>
             </div>
@@ -160,7 +161,7 @@ const Footer: React.FC = () => {
         {/* Copyright row */}
         <div className={styles.ftCopyRow}>
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} Camiliss. Todos los derechos reservados.
+            © {new Date().getFullYear()} vaneseshop. Todos los derechos reservados.
           </p>
           <div className={styles.ftCopyRight}>
             <div className="flex items-center gap-1.5 text-xs text-white/60">

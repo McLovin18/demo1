@@ -203,14 +203,10 @@ return (
               href={user ? "/admin" : "/"}
               className="hidden lg:flex items-center leading-none"
             >
-              <Image
-                src="/logo_c.png"
-                alt="logo"
-                width={190}
-                height={60}
-                priority
-                style={{ height:"65px", width: "auto"}}
-              />
+              <span className="font-heading font-bold tracking-tight whitespace-nowrap text-3xl sm:text-4xl">
+                VaneseShop
+
+              </span>
             </a>
           </div>
 
@@ -220,14 +216,10 @@ return (
               href={user ? "/admin" : "/"}
               className="pointer-events-auto flex flex-col items-center leading-none"
             >
-              <Image
-                src="/logo_c.png"
-                alt="Art Design MAKR"
-                width={180}
-                height={62}
-                priority
-                style={{ height: "65px",width: "auto"}}
-              />
+        <span className="font-heading font-bold tracking-tight whitespace-nowrap text-3xl sm:text-4xl">
+                VaneseShop
+
+        </span>
             </a>
           </div>
 
@@ -414,7 +406,7 @@ return (
       {mobileOpen && (
         <>
         <div
-          className="fixed inset-0 z-[99999] bg-black/70 backdrop-blur-sm mb-12"
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm mb-12"
           onClick={() => setMobileOpen(false)}
         >
           <div
@@ -431,7 +423,7 @@ return (
                 className="font-bold text-base"
                 style={{ color: "#ffffff", letterSpacing: "0.08em" }}
               >
-                Camiliss
+              The SunSet Ec
               </span>
               <button
                 onClick={() => setMobileOpen(false)}

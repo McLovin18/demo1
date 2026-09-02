@@ -11,8 +11,8 @@ import { Inter } from "next/font/google";
 // Optimiza regeneración de página principal y otros contenidos estáticos
 export const revalidate = 1800;
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://camiliss.ec"; // ⚠️ Reemplazar con dominio de producción
-const SITE_NAME = "Camiliss";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://vaneseshop.com"; // ⚠️ Reemplazar con dominio de producción
+const SITE_NAME = "vaneseshop";
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "600"],
@@ -27,24 +27,24 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Camiliss | Calzado y Accesorios para Mujer, Ecuador",
-    template: "%s | Camiliss",
+    default: "vaneseshop | Arte Textil, Pintura y Sombreros de Autor",
+    template: "%s | vaneseshop",
   },
   description:
-    "Camiliss Collection: calzado y accesorios para mujer en Guayaquil, Ecuador. Envíos a todo el país y compra segura.",
+    "vaneseshop: piezas de arte con identidad e historia por Vanessa Salazar. Textil, pintura y sombreros de autor con Método TransformArte.",
   keywords: [
-    "calzado para mujer Ecuador",
-    "accesorios para mujer Ecuador",
-    "zapatos mujer Guayaquil",
-    "Camiliss",
-    "Camiliss Collection",
-    "moda femenina Ecuador",
-    "calzado Guayaquil",
-    "accesorios de moda Ecuador",
-    "envíos nacionales calzado",
+    "arte textil Ecuador",
+    "sombreros de autor",
+    "pintura artesanal Ecuador",
+    "Vanessa Salazar artista",
+    "vaneseshop",
+    "arte con identidad",
+    "Método TransformArte",
+    "piezas únicas de arte",
+    "artista visual Ecuador",
     "emprendimiento femenino Ecuador",
   ],
-  creator: "Camiliss",
+  creator: "vaneseshop",
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: "/favicon.ico",
@@ -59,15 +59,15 @@ export const metadata: Metadata = {
     locale: "es_EC",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "Camiliss | Calzado y Accesorios para Mujer",
+    title: "vaneseshop | Arte Textil, Pintura y Sombreros de Autor",
     description:
-      "Camiliss Collection: calzado y accesorios para mujer en Guayaquil, Ecuador. Envíos a todo el país y compra segura.",
+      "vaneseshop: piezas de arte con identidad e historia por Vanessa Salazar. Textil, pintura y sombreros de autor con Método TransformArte.",
     images: [
       {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Camiliss - Calzado y Accesorios para Mujer",
+        alt: "vaneseshop - Arte Textil, Pintura y Sombreros de Autor",
         type: "image/jpeg",
       },
     ],
@@ -76,9 +76,9 @@ export const metadata: Metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "Camiliss | Calzado y Accesorios para Mujer",
+    title: "vaneseshop | Arte con Identidad e Historia",
     description:
-      "Calzado y accesorios para mujer, 100% ecuatoriano. Envíos a todo el país.",
+      "Piezas únicas de arte textil, pintura y sombreros de autor. Método TransformArte.",
     images: [`${SITE_URL}/twitter-image.jpg`],
   },
 
@@ -113,7 +113,7 @@ export const metadata: Metadata = {
     title: SITE_NAME,
   },
 
-  category: "Moda y Calzado",
+  category: "Arte y Artesanía",
 };
 
 // Viewport export - separate from metadata in Next.js 16
@@ -129,15 +129,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" className={`${cormorantGaramond.variable} ${inter.variable}`}>
       <head>
         {/* Google Analytics gtag.js - insertado justo después de <head> */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-K1Q0MYDSKF"></script>
-        {/* ⚠️ Reemplazar G-K1Q0MYDSKF con el ID de Analytics propio de Camiliss */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        {/* ⚠️ Reemplazar G-XXXXXXXXXX con el ID de Analytics propio de vaneseshop */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-K1Q0MYDSKF');
+              gtag('config', 'G-XXXXXXXXXX');
             `,
           }}
         />
