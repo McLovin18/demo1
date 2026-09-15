@@ -11,8 +11,8 @@ import { Inter } from "next/font/google";
 // Optimiza regeneración de página principal y otros contenidos estáticos
 export const revalidate = 1800;
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://vaneseshop.com"; // ⚠️ Reemplazar con dominio de producción
-const SITE_NAME = "vaneseshop";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://importadoratlas.ec"; // ⚠️ Reemplazar con dominio de producción
+const SITE_NAME = "Importadora Atlas";
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "600"],
@@ -27,24 +27,24 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "vaneseshop | Arte Textil, Pintura y Sombreros de Autor",
-    template: "%s | vaneseshop",
+    default: "Importadora Atlas | Tecnología que Simplifica tu Vida",
+    template: "%s | Importadora Atlas",
   },
   description:
-    "vaneseshop: piezas de arte con identidad e historia por Vanessa Salazar. Textil, pintura y sombreros de autor con Método TransformArte.",
+    "Importadora Atlas: tecnología importada directamente de China a Ecuador. Productos innovadores que simplifican tu día a día.",
   keywords: [
-    "arte textil Ecuador",
-    "sombreros de autor",
-    "pintura artesanal Ecuador",
-    "Vanessa Salazar artista",
-    "vaneseshop",
-    "arte con identidad",
-    "Método TransformArte",
-    "piezas únicas de arte",
-    "artista visual Ecuador",
-    "emprendimiento femenino Ecuador",
+    "importadora tecnología Ecuador",
+    "gadgets Ecuador",
+    "tecnología China Ecuador",
+    "Importadora Atlas",
+    "productos tecnológicos importados",
+    "electrónica Ecuador",
+    "accesorios tecnológicos",
+    "tienda de tecnología online Ecuador",
+    "envíos nacionales tecnología",
+    "innovación tecnológica Ecuador",
   ],
-  creator: "vaneseshop",
+  creator: "Importadora Atlas",
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: "/favicon.ico",
@@ -59,15 +59,15 @@ export const metadata: Metadata = {
     locale: "es_EC",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "vaneseshop | Arte Textil, Pintura y Sombreros de Autor",
+    title: "Importadora Atlas | Tecnología que Simplifica tu Vida",
     description:
-      "vaneseshop: piezas de arte con identidad e historia por Vanessa Salazar. Textil, pintura y sombreros de autor con Método TransformArte.",
+      "Importadora Atlas: tecnología importada directamente de China a Ecuador. Productos innovadores que simplifican tu día a día.",
     images: [
       {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "vaneseshop - Arte Textil, Pintura y Sombreros de Autor",
+        alt: "Importadora Atlas - Tecnología que Simplifica tu Vida",
         type: "image/jpeg",
       },
     ],
@@ -76,9 +76,9 @@ export const metadata: Metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "vaneseshop | Arte con Identidad e Historia",
+    title: "Importadora Atlas | Tecnología para tu Día a Día",
     description:
-      "Piezas únicas de arte textil, pintura y sombreros de autor. Método TransformArte.",
+      "Tecnología importada de China a Ecuador. Productos que simplifican tu vida.",
     images: [`${SITE_URL}/twitter-image.jpg`],
   },
 
@@ -113,7 +113,7 @@ export const metadata: Metadata = {
     title: SITE_NAME,
   },
 
-  category: "Arte y Artesanía",
+  category: "Tecnología y Electrónica",
 };
 
 // Viewport export - separate from metadata in Next.js 16
@@ -130,7 +130,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Google Analytics gtag.js - insertado justo después de <head> */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-        {/* ⚠️ Reemplazar G-XXXXXXXXXX con el ID de Analytics propio de vaneseshop */}
+        {/* ⚠️ Reemplazar G-XXXXXXXXXX con el ID de Analytics propio de Importadora Atlas */}
         <script
           dangerouslySetInnerHTML={{
             __html: `

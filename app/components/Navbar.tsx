@@ -204,7 +204,7 @@ return (
               className="hidden lg:flex items-center leading-none"
             >
               <span className="font-heading font-bold tracking-tight whitespace-nowrap text-3xl sm:text-4xl">
-                VaneseShop
+                ATLAS
 
               </span>
             </a>
@@ -217,7 +217,7 @@ return (
               className="pointer-events-auto flex flex-col items-center leading-none"
             >
         <span className="font-heading font-bold tracking-tight whitespace-nowrap text-3xl sm:text-4xl">
-                VaneseShop
+                ATLAS
 
         </span>
             </a>
@@ -423,7 +423,7 @@ return (
                 className="font-bold text-base"
                 style={{ color: "#ffffff", letterSpacing: "0.08em" }}
               >
-              The SunSet Ec
+              ATLAS
               </span>
               <button
                 onClick={() => setMobileOpen(false)}
