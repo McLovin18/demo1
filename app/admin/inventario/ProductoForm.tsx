@@ -56,6 +56,10 @@ type Producto = {
     tipo: string;
     afectaPrecio?: boolean;
   }[];
+  promocionar?: boolean;
+  promocionarTitulo?: string;
+  promocionarDescripcion?: string;
+  promocionarDescuento?: number;
 };
 
 type ProductoFormProps = {
@@ -190,6 +194,14 @@ export default function ProductoForm({ initialData = null, onSave, onCancel }: P
     tipo: string;
     afectaPrecio?: boolean;
   }[]>(initialData?.camposPersonalizacion || []);
+  const [promocionar, setPromocionar] = useState<boolean>(Boolean(initialData?.promocionar));
+  const [promocionarTitulo, setPromocionarTitulo] = useState<string>(initialData?.promocionarTitulo || "");
+  const [promocionarDescripcion, setPromocionarDescripcion] = useState<string>(initialData?.promocionarDescripcion || "");
+  const [promocionarDescuento, setPromocionarDescuento] = useState<string>(
+    initialData?.promocionarDescuento !== undefined && initialData?.promocionarDescuento !== null
+      ? String(initialData.promocionarDescuento)
+      : ""
+  );
   const [draftDisponible, setDraftDisponible] = useState(false);
 
   // ── Manejo de URLs de imagen sin fugas de memoria ──
@@ -1281,6 +1293,71 @@ export default function ProductoForm({ initialData = null, onSave, onCancel }: P
           <input className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-base font-semibold text-slate-400 outline-none" type="text" value="Se aplicará al precio base al comprar" readOnly />
         </label>
       </div>
+
+      <div className="mt-8 rounded-[26px] bg-gradient-to-r from-purple-50 to-pink-50 p-5 border border-purple-200">
+        <label className="block mb-4">
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={promocionar}
+              onChange={e => setPromocionar(e.target.checked)}
+              className="w-5 h-5 rounded cursor-pointer accent-purple-500"
+            />
+            <span className="text-sm font-semibold text-purple-900">¿Promocionar este producto?</span>
+          </div>
+          <p className="mt-1 text-xs text-purple-700 ml-8">Este producto aparecerá en el popup promocional inicial del sitio</p>
+        </label>
+
+        {promocionar && (
+          <div className="mt-4 space-y-4 rounded-xl border border-purple-200 bg-white p-4">
+            <label className="block">
+              <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-purple-700">Título promocional</span>
+              <input
+                className="w-full rounded-2xl border border-purple-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition focus:border-purple-400 focus:ring-2 focus:ring-purple-100"
+                value={promocionarTitulo}
+                onChange={e => setPromocionarTitulo(e.target.value)}
+                placeholder="Ej: ¡OFERTA ESPECIAL!"
+                maxLength={100}
+              />
+            </label>
+            <label className="block">
+              <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-purple-700">Descripción promocional</span>
+              <textarea
+                className="min-h-20 w-full rounded-2xl border border-purple-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition focus:border-purple-400 focus:ring-2 focus:ring-purple-100"
+                value={promocionarDescripcion}
+                onChange={e => setPromocionarDescripcion(e.target.value)}
+                placeholder="Ej: Aprovecha este descuento exclusivo por tiempo limitado"
+                maxLength={300}
+                rows={3}
+              />
+            </label>
+            <label className="block">
+              <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-purple-700">Descuento promocional adicional (%)</span>
+              <input
+                className="w-full rounded-2xl border border-purple-200 bg-white px-4 py-3 text-base font-semibold text-slate-900 outline-none transition focus:border-purple-400 focus:ring-2 focus:ring-purple-100"
+                type="number"
+                inputMode="numeric"
+                min="0"
+                max="100"
+                value={promocionarDescuento}
+                onChange={e => {
+                  const val = e.target.value;
+                  if (val === "") {
+                    setPromocionarDescuento("");
+                  } else {
+                    const num = Number(val);
+                    if (!isNaN(num) && num >= 0 && num <= 100) {
+                      setPromocionarDescuento(val);
+                    }
+                  }
+                }}
+                placeholder="0"
+              />
+              <p className="mt-1 text-xs text-purple-600">Este descuento se sumará al descuento base del producto en el slider promocional</p>
+            </label>
+          </div>
+        )}
+      </div>
     </section>
   );
 
@@ -1455,7 +1532,11 @@ export default function ProductoForm({ initialData = null, onSave, onCancel }: P
                 afectaPrecio: Boolean(c.afectaPrecio),
                 tipo: c.afectaPrecio ? "texto" : c.tipo,
               }))
-          : undefined
+          : undefined,
+        promocionar,
+        promocionarTitulo: promocionar ? promocionarTitulo : undefined,
+        promocionarDescripcion: promocionar ? promocionarDescripcion : undefined,
+        promocionarDescuento: promocionar && promocionarDescuento !== "" ? Number(promocionarDescuento) : undefined
       });
 
       // Se guardó con éxito: ya no hace falta el borrador

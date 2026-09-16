@@ -5,9 +5,10 @@ import { useEffect, useMemo, useState } from "react";
 import BottomBarPublic from "./components/BottomBarPublic";
 import WhatsAppFloatingButton from "./components/WhatsAppFloatingButton";
 import HomeCategoriesProductsSection from "./components/HomeCategoriesProductsSection";
+import PromocionalPopup from "./components/PromocionalPopup";
 import { SectionRenderer } from "./landing/sectionRegistry";
 import { getLandingPage } from "./lib/landing-db";
-import { obtenerProductos } from "./lib/productos-db";
+import { obtenerProductos, obtenerProductosPromocionados } from "./lib/productos-db";
 import { obtenerCategorias } from "./lib/categorias-db";
 import type { LandingSection } from "./lib/landing-types";
 import { useUser } from "./context/UserContext";
@@ -23,16 +24,19 @@ export default function Home() {
   const [featuredProductsResolved, setFeaturedProductsResolved] = useState<any[]>([]);
   const [categorias, setCategorias] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showPromocionalPopup, setShowPromocionalPopup] = useState(false);
+  const [productosPromocionales, setProductosPromocionales] = useState<any[]>([]);
 
   useEffect(() => {
     let mounted = true;
 
     const loadLanding = async () => {
       try {
-        const [data, products, cats] = await Promise.all([
+        const [data, products, cats, promocionales] = await Promise.all([
           getLandingPage(),
           obtenerProductos(),
           obtenerCategorias(),
+          obtenerProductosPromocionados(),
         ]);
 
         // Get all products, sort by newest first, take top 8
@@ -46,6 +50,7 @@ export default function Home() {
           setAllProducts(products || []);
           setFeaturedProductsResolved(recentProducts);
           setCategorias(cats || []);
+          setProductosPromocionales(promocionales || []);
         }
       } catch (error) {
         console.error("Error cargando landing publicada:", error);
@@ -67,6 +72,18 @@ export default function Home() {
       mounted = false;
     };
   }, []);
+
+  // Lógica para mostrar popup promocional cada vez que el usuario está en la página principal
+  useEffect(() => {
+    if (productosPromocionales.length === 0) return;
+
+    // Mostrar popup después de 1 segundo para no interferir con la carga inicial
+    const timer = setTimeout(() => {
+      setShowPromocionalPopup(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [productosPromocionales]);
 
 
 
@@ -199,6 +216,14 @@ const lastHeroIndex = useMemo(() => {
         )}
       </main>
       {!isLogged && <BottomBarPublic />}
+      
+      {/* Popup promocional */}
+      {showPromocionalPopup && (
+        <PromocionalPopup
+          productos={productosPromocionales}
+          onClose={() => setShowPromocionalPopup(false)}
+        />
+      )}
     </>
   );
 }

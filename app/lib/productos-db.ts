@@ -30,6 +30,10 @@ export interface Producto {
   marca?: string;
   bodegaId?: string;
   destacado?: boolean;
+  promocionar?: boolean;
+  promocionarTitulo?: string;
+  promocionarDescripcion?: string;
+  promocionarDescuento?: number;
   createdAt?: number | Date;
   fechaCreacion?: any;
   [key: string]: any;
@@ -336,4 +340,29 @@ export function onProductosDestacadosChange(
     
     callback(filtrarProductosConStock(productos, opts));
   });
+}
+
+// Obtener productos promocionados
+export async function obtenerProductosPromocionados(opts = {}) {
+  const q = query(collection(db, COLLECTION), where("promocionar", "==", true));
+  const snapshot = await getDocs(q);
+  let productos = snapshot.docs.map(doc => {
+    const data = doc.data();
+    const producto = { id: doc.id, ...data };
+    
+    // Normalizar createdAt
+    if (!producto.createdAt) {
+      if (data.fechaCreacion && typeof data.fechaCreacion.toMillis === 'function') {
+        producto.createdAt = data.fechaCreacion.toMillis();
+      } else if (data.fechaCreacion && typeof data.fechaCreacion === 'number') {
+        producto.createdAt = data.fechaCreacion;
+      } else {
+        producto.createdAt = 0;
+      }
+    }
+    
+    return producto;
+  });
+  
+  return filtrarProductosConStock(productos, opts);
 }
